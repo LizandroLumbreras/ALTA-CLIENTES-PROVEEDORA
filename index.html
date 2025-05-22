@@ -4,71 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alta de Cliente - La Proveedora</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="form-container">
-    <div class="form-header">
+  <div class="container">
+    <header>
       <img src="logo_proveedora.jpg" alt="Logo La Proveedora" class="logo" />
-      <h2>Alta de Cliente</h2>
-    </div>
-    <form id="clienteForm">
-      <input type="text" id="nombre" placeholder="Nombre del cliente" required />
-      <input type="tel" id="telefono" placeholder="Teléfono" required />
-      <input type="text" id="direccion" placeholder="Dirección fiscal" required />
-      <input type="text" id="entrega" placeholder="Dirección de entrega" required />
-      <input type="text" id="rfc" placeholder="RFC" required />
-      <button type="submit">Registrar Cliente</button>
+      <h1>Formato de Alta de Clientes</h1>
+    </header>
+
+    <form id="formularioCliente">
+      <section>
+        <h2>Datos Generales del Cliente</h2>
+        <input type="text" placeholder="No. DE CLIENTE" required />
+        <input type="text" placeholder="Razón Social" required />
+        <input type="text" placeholder="RFC" required />
+        <input type="text" placeholder="Calle" required />
+        <input type="text" placeholder="Número" required />
+        <input type="text" placeholder="Colonia" required />
+        <input type="text" placeholder="Código Postal" required />
+        <input type="text" placeholder="Municipio" required />
+        <input type="text" placeholder="Ciudad" required />
+        <input type="text" placeholder="Estado" required />
+        <input type="text" placeholder="Representante Legal" required />
+        <input type="tel" placeholder="Teléfono" required />
+        <input type="email" placeholder="Correo Electrónico" required />
+      </section>
+
+      <section>
+        <h2>Datos de Facturación</h2>
+        <input type="text" placeholder="Uso de CFDI" required />
+        <input type="text" placeholder="Método de Pago" required />
+        <input type="text" placeholder="Forma de Pago" required />
+        <input type="email" placeholder="Correo electrónico de contacto" />
+        <input type="email" placeholder="Correo para facturas" />
+        <input type="email" placeholder="Correo para complementos de pago" />
+      </section>
+
+      <section>
+        <h2>Condiciones Comerciales con el Cliente</h2>
+        <input type="text" placeholder="Días de Crédito" />
+        <input type="text" placeholder="Límite de Crédito en pesos" />
+        <input type="text" placeholder="Tipo de Cliente" />
+        <input type="text" placeholder="Forma de Pago" />
+        <input type="text" placeholder="Descuento por Tipo de Cliente" />
+      </section>
+
+      <div class="boton">
+        <button type="submit">Registrar Cliente</button>
+      </div>
     </form>
-    <p id="mensaje" class="mensaje"></p>
+
+    <footer>
+      <p>LA PROVEEDORA S.A. DE C.V</p>
+    </footer>
   </div>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_AUTH_DOMAIN",
-      projectId: "TU_PROJECT_ID",
-      storageBucket: "TU_BUCKET",
-      messagingSenderId: "TU_MSG_ID",
-      appId: "TU_APP_ID"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    const form = document.getElementById('clienteForm');
-    const mensaje = document.getElementById('mensaje');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const nombre = document.getElementById('nombre').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const direccion = document.getElementById('direccion').value.trim();
-      const entrega = document.getElementById('entrega').value.trim();
-      const rfc = document.getElementById('rfc').value.trim();
-
-      if (nombre && telefono && direccion && entrega && rfc) {
-        try {
-          await db.collection('clientes').add({
-            nombre, telefono, direccion, entrega, rfc,
-            fechaAlta: new Date()
-          });
-          mensaje.textContent = 'Cliente registrado correctamente';
-          mensaje.style.color = 'green';
-          form.reset();
-        } catch (error) {
-          mensaje.textContent = 'Error al registrar cliente';
-          mensaje.style.color = 'red';
-        }
-      } else {
-        mensaje.textContent = 'Todos los campos son obligatorios';
-        mensaje.style.color = 'red';
-      }
-    });
-  </script>
 </body>
 </html>
