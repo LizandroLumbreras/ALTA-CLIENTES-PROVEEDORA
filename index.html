@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alta de Cliente - La Proveedora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-header">
+      <img src="logo_proveedora.jpg" alt="Logo La Proveedora" class="logo" />
+      <h2>Alta de Cliente</h2>
+    </div>
+    <form id="clienteForm">
+      <input type="text" id="nombre" placeholder="Nombre del cliente" required />
+      <input type="tel" id="telefono" placeholder="Teléfono" required />
+      <input type="text" id="direccion" placeholder="Dirección fiscal" required />
+      <input type="text" id="entrega" placeholder="Dirección de entrega" required />
+      <input type="text" id="rfc" placeholder="RFC" required />
+      <button type="submit">Registrar Cliente</button>
+    </form>
+    <p id="mensaje" class="mensaje"></p>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_BUCKET",
+      messagingSenderId: "TU_MSG_ID",
+      appId: "TU_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const form = document.getElementById('clienteForm');
+    const mensaje = document.getElementById('mensaje');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const direccion = document.getElementById('direccion').value.trim();
+      const entrega = document.getElementById('entrega').value.trim();
+      const rfc = document.getElementById('rfc').value.trim();
+
+      if (nombre && telefono && direccion && entrega && rfc) {
+        try {
+          await db.collection('clientes').add({
+            nombre, telefono, direccion, entrega, rfc,
+            fechaAlta: new Date()
+          });
+          mensaje.textContent = 'Cliente registrado correctamente';
+          mensaje.style.color = 'green';
+          form.reset();
+        } catch (error) {
+          mensaje.textContent = 'Error al registrar cliente';
+          mensaje.style.color = 'red';
+        }
+      } else {
+        mensaje.textContent = 'Todos los campos son obligatorios';
+        mensaje.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
