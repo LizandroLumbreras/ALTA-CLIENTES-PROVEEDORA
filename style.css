@@ -9,16 +9,16 @@ body {
 .container {
   max-width: 900px;
   margin: auto;
-  padding: 20px;
+  padding: 30px;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 12px;
 }
 
 .logo {
-  max-width: 140px;
+  max-width: 160px;
   display: block;
-  margin: 20px auto;
+  margin: 40px auto 30px;
 }
 
 header, footer {
@@ -27,7 +27,7 @@ header, footer {
 }
 
 section {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 section h2 {
@@ -95,9 +95,9 @@ input {
   }
 
   .logo {
-    max-width: 140px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    max-width: 160px;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 
   .boton, footer {
