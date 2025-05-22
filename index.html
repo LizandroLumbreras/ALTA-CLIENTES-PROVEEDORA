@@ -15,44 +15,46 @@
       <img src="logo_proveedora.jpg" alt="Logo La Proveedora" class="logo" />
       <h1>Formato de Alta de Clientes</h1>
     </header>
+
     <div class="boton">
-  <button type="button" onclick="window.print()">🖨 Imprimir Formulario</button>
-</div>
+      <button type="button" onclick="window.print()">🖨 Imprimir Formulario</button>
+    </div>
+
     <form id="formularioCliente">
       <section>
         <h2>Datos Generales del Cliente</h2>
-        <input type="text" placeholder="Nombre o Razón Social" required />
-        <input type="text" placeholder="RFC" required />
-        <input type="text" placeholder="Calle" required />
-        <input type="text" placeholder="Número" required />
-        <input type="text" placeholder="Colonia" required />
-        <input type="text" placeholder="Código Postal" required />
-        <input type="text" placeholder="Municipio" required />
-        <input type="text" placeholder="Ciudad" required />
-        <input type="text" placeholder="Estado" required />
-        <input type="text" placeholder="Representante Legal" required />
-        <input type="tel" placeholder="Teléfono" required />
-        <input type="email" placeholder="Correo Electrónico" required />
+        <input type="text" name="nombre" placeholder="Nombre o Razón Social" required />
+        <input type="text" name="rfc" placeholder="RFC" required />
+        <input type="text" name="calle" placeholder="Calle" required />
+        <input type="text" name="numero" placeholder="Número" required />
+        <input type="text" name="colonia" placeholder="Colonia" required />
+        <input type="text" name="cp" placeholder="Código Postal" required />
+        <input type="text" name="municipio" placeholder="Municipio" required />
+        <input type="text" name="ciudad" placeholder="Ciudad" required />
+        <input type="text" name="estado" placeholder="Estado" required />
+        <input type="text" name="representante" placeholder="Representante Legal" required />
+        <input type="tel" name="telefono" placeholder="Teléfono" required />
+        <input type="email" name="correo" placeholder="Correo Electrónico" required />
       </section>
 
       <section>
         <h2>Datos de Facturación</h2>
-        <input type="text" placeholder="Uso de CFDI" required />
-        <input type="text" placeholder="Método de Pago" required />
-        <input type="text" placeholder="Forma de Pago" required />
-        <input type="text" placeholder="Direccion de Entrega" required />
-        <input type="text" placeholder="Autorizado para compra 1" required />
-        <input type="text" placeholder="Autorizado para compra 2" required />
-        <input type="text" placeholder="Autorizado para compra 3" required />
+        <input type="text" name="uso_cfdi" placeholder="Uso de CFDI" required />
+        <input type="text" name="metodo_pago" placeholder="Método de Pago" required />
+        <input type="text" name="forma_pago" placeholder="Forma de Pago" required />
+        <input type="text" name="direccion_entrega" placeholder="Direccion de Entrega" required />
+        <input type="text" name="autorizado1" placeholder="Autorizado para compra 1" required />
+        <input type="text" name="autorizado2" placeholder="Autorizado para compra 2" required />
+        <input type="text" name="autorizado3" placeholder="Autorizado para compra 3" required />
       </section>
 
       <section>
         <h2>Condiciones Comerciales con el Cliente</h2>
-        <input type="text" placeholder="Días de Crédito" />
-        <input type="text" placeholder="Límite de Crédito en pesos" />
-        <input type="text" placeholder="Tipo de Cliente" />
-        <input type="text" placeholder="Forma de Pago" />
-        <input type="text" placeholder="Descuento por Tipo de Cliente" />
+        <input type="text" name="dias_credito" placeholder="Días de Crédito" />
+        <input type="text" name="limite_credito" placeholder="Límite de Crédito en pesos" />
+        <input type="text" name="tipo_cliente" placeholder="Tipo de Cliente" />
+        <input type="text" name="forma_pago_2" placeholder="Forma de Pago" />
+        <input type="text" name="descuento" placeholder="Descuento por Tipo de Cliente" />
       </section>
 
       <div class="boton">
@@ -80,13 +82,17 @@
 
     document.getElementById("formularioCliente").addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const inputs = e.target.querySelectorAll("input");
       const data = {};
       inputs.forEach(input => {
-        const label = input.placeholder;
-        data[label] = input.value.trim();
+        const key = input.name;
+        data[key] = input.value.trim();
       });
+
+      if (!/\S+@\S+\.\S+/.test(data['correo'])) {
+        alert("Correo electrónico no válido");
+        return;
+      }
 
       try {
         await db.collection("clientes").add({
