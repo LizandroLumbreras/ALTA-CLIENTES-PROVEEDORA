@@ -22,7 +22,7 @@ body {
 
 header, footer {
   text-align: center;
-  padding: 10px 0;
+  padding: 0px 0;
 }
 
 section {
@@ -66,6 +66,10 @@ input {
 }
 
 @media print {
+  body {
+    zoom: 0.65; /* Reduce el tamaño general para que todo quepa */
+  }
+
   body * {
     visibility: hidden;
   }
@@ -76,8 +80,14 @@ input {
 
   form {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  header, .logo {
+    visibility: visible;
+    position: relative;
   }
 
   .boton, footer {
