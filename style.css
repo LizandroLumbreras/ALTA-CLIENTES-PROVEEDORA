@@ -69,11 +69,11 @@ input {
 @media print {
   @page {
     size: A4;
-    margin: 1cm;
+    margin: 0.5cm;
   }
 
   html, body {
-    zoom: 0.6;
+    zoom: 0.80;
     margin: 0;
     padding: 0;
   }
