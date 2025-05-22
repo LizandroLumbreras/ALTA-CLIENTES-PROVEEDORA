@@ -6,6 +6,8 @@
   <title>Alta de Cliente - La Proveedora</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <div class="container">
@@ -38,7 +40,7 @@
         <input type="text" placeholder="Método de Pago" required />
         <input type="text" placeholder="Forma de Pago" required />
         <input type="text" placeholder="Direccion de Entrega" required />
-           </section>
+      </section>
 
       <section>
         <h2>Condiciones Comerciales con el Cliente</h2>
@@ -58,5 +60,42 @@
       <p>LA PROVEEDORA S.A. DE C.V</p>
     </footer>
   </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDyb929si94uBKilI_YNGKZgU9SIqo_l4c",
+      authDomain: "alta-clientes-prov.firebaseapp.com",
+      projectId: "alta-clientes-prov",
+      storageBucket: "alta-clientes-prov.firebasestorage.app",
+      messagingSenderId: "300518490689",
+      appId: "1:300518490689:web:06390a6bbb0c018442bcc0"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    document.getElementById("formularioCliente").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const inputs = e.target.querySelectorAll("input");
+      const data = {};
+      inputs.forEach(input => {
+        const label = input.placeholder;
+        data[label] = input.value.trim();
+      });
+
+      try {
+        await db.collection("clientes").add({
+          ...data,
+          fechaAlta: new Date()
+        });
+        alert("✅ Cliente registrado correctamente.");
+        e.target.reset();
+      } catch (error) {
+        console.error("Error al registrar cliente:", error);
+        alert("❌ Ocurrió un error al guardar el cliente.");
+      }
+    });
+  </script>
 </body>
 </html>
