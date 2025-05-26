@@ -4,8 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alta de Cliente - La Proveedora</title>
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    header {
+      text-align: center;
+    }
+    header .logo {
+      max-width: 150px;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 48%;
+      padding: 12px;
+      font-size: 16px;
+      margin: 10px 1%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+    #guardarBtn {
+      background-color: #28a745;
+    }
+    #imprimirBtn {
+      background-color: #007bff;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+  </style>
+
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 </head>
@@ -19,44 +76,77 @@
     <form id="formularioCliente">
       <section>
         <h2>Datos Generales del Cliente</h2>
-        <input type="text" placeholder="Nombre o Razón Social" required />
-        <input type="text" placeholder="RFC" required />
-        <input type="text" placeholder="Calle" required />
-        <input type="text" placeholder="Número" required />
-        <input type="text" placeholder="Colonia" required />
-        <input type="text" placeholder="Código Postal" required />
-        <input type="text" placeholder="Municipio" required />
-        <input type="text" placeholder="Ciudad" required />
-        <input type="text" placeholder="Estado" required />
-        <input type="text" placeholder="Representante Legal" required />
-        <input type="tel" placeholder="Teléfono" required />
-        <input type="email" placeholder="Correo Electrónico" required />
+        <input type="text" name="nombre" placeholder="Nombre o Razón Social" required />
+        <input type="text" name="rfc" placeholder="RFC" required />
+        <input type="text" name="calle" placeholder="Calle" required />
+        <input type="text" name="numero" placeholder="Número" required />
+        <input type="text" name="colonia" placeholder="Colonia" required />
+        <input type="text" name="cp" placeholder="Código Postal" required />
+        <input type="text" name="municipio" placeholder="Municipio" required />
+        <input type="text" name="ciudad" placeholder="Ciudad" required />
+        <input type="text" name="estado" placeholder="Estado" required />
+        <input type="text" name="representante" placeholder="Representante Legal" required />
+        <input type="tel" name="telefono" placeholder="Teléfono" required />
+        <input type="email" name="email" placeholder="Correo Electrónico" required />
       </section>
 
       <section>
         <h2>Datos de Facturación</h2>
-        <input type="text" placeholder="Uso de CFDI" required />
-        <input type="text" placeholder="Método de Pago" required />
-        <input type="text" placeholder="Forma de Pago" required />
-        <input type="text" placeholder="Direccion de Entrega" required />
-        <input type="text" placeholder="Autorizado para compra 1" required />
-        <input type="text" placeholder="Autorizado para compra 2" required />
-        <input type="text" placeholder="Autorizado para compra 3" required />
+        <input type="text" name="cfdi" placeholder="Uso de CFDI" required />
+        <input type="text" name="metodoPago" placeholder="Método de Pago" required />
+        <input type="text" name="formaPago" placeholder="Forma de Pago" required />
+        <input type="text" name="entrega" placeholder="Direccion de Entrega" required />
+        <input type="text" name="autorizado1" placeholder="Autorizado para compra 1" />
+        <input type="text" name="autorizado2" placeholder="Autorizado para compra 2" />
+        <input type="text" name="autorizado3" placeholder="Autorizado para compra 3" />
       </section>
 
       <section>
         <h2>Condiciones Comerciales con el Cliente</h2>
-        <input type="text" placeholder="Días de Crédito" />
-        <input type="text" placeholder="Límite de Crédito en pesos" />
-        <input type="text" placeholder="Tipo de Cliente" />
-        <input type="text" placeholder="Forma de Pago" />
-        <input type="text" placeholder="Descuento por Tipo de Cliente" />
+        <input type="text" name="diasCredito" placeholder="Días de Crédito" />
+        <input type="text" name="limiteCredito" placeholder="Límite de Crédito en pesos" />
+        <input type="text" name="tipoCliente" placeholder="Tipo de Cliente" />
+        <input type="text" name="formaPagoCondicion" placeholder="Forma de Pago" />
+        <input type="text" name="descuento" placeholder="Descuento por Tipo de Cliente" />
       </section>
+
+      <div style="text-align: center;">
+        <button id="guardarBtn" type="button">Guardar en Firebase</button>
+        <button id="imprimirBtn" type="button" onclick="window.print()">Imprimir</button>
+      </div>
     </form>
 
     <footer>
       <p>LA PROVEEDORA S.A. DE C.V</p>
     </footer>
   </div>
+
+  <script>
+    // Configura tu Firebase
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_STORAGE_BUCKET",
+      messagingSenderId: "TU_MESSAGING_ID",
+      appId: "TU_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Guardar en Firebase
+    document.getElementById("guardarBtn").addEventListener("click", () => {
+      const form = document.getElementById("formularioCliente");
+      const data = {};
+      Array.from(form.elements).forEach(input => {
+        if (input.name) data[input.name] = input.value;
+      });
+
+      db.collection("clientes").add(data)
+        .then(() => alert("Cliente guardado correctamente."))
+        .catch(error => alert("Error al guardar: " + error));
+    });
+  </script>
 </body>
 </html>
+
