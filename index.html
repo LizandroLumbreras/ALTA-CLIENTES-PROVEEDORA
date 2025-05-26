@@ -95,7 +95,7 @@
         <input type="text" name="cfdi" placeholder="Uso de CFDI" required />
         <input type="text" name="metodoPago" placeholder="Método de Pago" required />
         <input type="text" name="formaPago" placeholder="Forma de Pago" required />
-        <input type="text" name="entrega" placeholder="Direccion de Entrega" required />
+        <input type="text" name="entrega" placeholder="Dirección de Entrega" required />
         <input type="text" name="autorizado1" placeholder="Autorizado para compra 1" />
         <input type="text" name="autorizado2" placeholder="Autorizado para compra 2" />
         <input type="text" name="autorizado3" placeholder="Autorizado para compra 3" />
@@ -116,60 +116,55 @@
       </div>
     </form>
 
+    <div id="mensajeGuardado" style="display:none; text-align:center; margin-top:15px; font-weight: bold; color: green;">
+      Cliente guardado correctamente.
+    </div>
+
     <footer>
       <p>LA PROVEEDORA S.A. DE C.V</p>
     </footer>
   </div>
 
   <script>
-    // Configura tu Firebase
-   const firebaseConfig = {
-  apiKey: "AIzaSyDyb929si94uBKilI_YNGKZgU9SIqo_l4c",
-  authDomain: "alta-clientes-prov.firebaseapp.com",
-  projectId: "alta-clientes-prov",
-  storageBucket: "alta-clientes-prov.firebasestorage.app",
-  messagingSenderId: "300518490689",
-  appId: "1:300518490689:web:06390a6bbb0c018442bcc0"
-};
+    // Configura Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDyb929si94uBKilI_YNGKZgU9SIqo_l4c",
+      authDomain: "alta-clientes-prov.firebaseapp.com",
+      projectId: "alta-clientes-prov",
+      storageBucket: "alta-clientes-prov.firebasestorage.app",
+      messagingSenderId: "300518490689",
+      appId: "1:300518490689:web:06390a6bbb0c018442bcc0"
+    };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
     // Guardar en Firebase
     document.getElementById("guardarBtn").addEventListener("click", () => {
-  const form = document.getElementById("formularioCliente");
-  const guardarBtn = document.getElementById("guardarBtn");
-  const data = {};
+      const form = document.getElementById("formularioCliente");
+      const guardarBtn = document.getElementById("guardarBtn");
+      const data = {};
 
-  Array.from(form.elements).forEach(input => {
-    if (input.name) data[input.name] = input.value;
-  });
+      Array.from(form.elements).forEach(input => {
+        if (input.name) data[input.name] = input.value;
+      });
 
-  data.timestamp = new Date();
+      data.timestamp = new Date();
 
-  guardarBtn.disabled = true;
+      guardarBtn.disabled = true;
 
-  db.collection("clientes").add(data)
-    .then(() => {
-      document.getElementById("mensajeGuardado").style.display = "block";
-      form.reset();
-      setTimeout(() => {
-        document.getElementById("mensajeGuardado").style.display = "none";
-      }, 3000);
-    })
-    .catch(error => alert("Error al guardar: " + error))
-    .finally(() => {
-      guardarBtn.disabled = false;
-    });
-});
-
-data.timestamp = new Date(); // 🟢 Agrega fecha y hora al registro
-
-<div id="mensajeGuardado" style="display:none; text-align:center; margin-top:10px; color:green;">
-  Cliente guardado correctamente.
-</div>
-        .catch(error => alert("Error al guardar: " + error));
+      db.collection("clientes").add(data)
+        .then(() => {
+          document.getElementById("mensajeGuardado").style.display = "block";
+          form.reset();
+          setTimeout(() => {
+            document.getElementById("mensajeGuardado").style.display = "none";
+          }, 3000);
+        })
+        .catch(error => alert("Error al guardar: " + error))
+        .finally(() => {
+          guardarBtn.disabled = false;
+        });
     });
   </script>
 </body>
 </html>
-
