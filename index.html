@@ -136,11 +136,32 @@
 
     // Guardar en Firebase
     document.getElementById("guardarBtn").addEventListener("click", () => {
-      const form = document.getElementById("formularioCliente");
-     const data = {};
-Array.from(form.elements).forEach(input => {
-  if (input.name) data[input.name] = input.value;
+  const form = document.getElementById("formularioCliente");
+  const guardarBtn = document.getElementById("guardarBtn");
+  const data = {};
+
+  Array.from(form.elements).forEach(input => {
+    if (input.name) data[input.name] = input.value;
+  });
+
+  data.timestamp = new Date();
+
+  guardarBtn.disabled = true;
+
+  db.collection("clientes").add(data)
+    .then(() => {
+      document.getElementById("mensajeGuardado").style.display = "block";
+      form.reset();
+      setTimeout(() => {
+        document.getElementById("mensajeGuardado").style.display = "none";
+      }, 3000);
+    })
+    .catch(error => alert("Error al guardar: " + error))
+    .finally(() => {
+      guardarBtn.disabled = false;
+    });
 });
+
 data.timestamp = new Date(); // 🟢 Agrega fecha y hora al registro
 
 <div id="mensajeGuardado" style="display:none; text-align:center; margin-top:10px; color:green;">
