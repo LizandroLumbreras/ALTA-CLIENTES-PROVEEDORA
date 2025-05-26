@@ -117,9 +117,32 @@
 
       <section>
         <h2>Datos de Facturación</h2>
-        <input type="text" name="cfdi" placeholder="Uso de CFDI" required />
-        <input type="text" name="metodoPago" placeholder="Método de Pago" required />
-        <input type="text" name="formaPago" placeholder="Forma de Pago" required />
+       <label for="cfdi">Uso de CFDI</label>
+<select name="cfdi" id="cfdi" required>
+  <option value="">Seleccione una opción</option>
+  <option value="G01">G01 - Adquisición de mercancías</option>
+  <option value="G03">G03 - Gastos en general</option>
+  <option value="I01">I01 - Construcciones</option>
+  <option value="D01">D01 - Honorarios médicos</option>
+  <option value="P01">P01 - Por definir</option>
+</select>
+
+<label for="metodoPago">Método de Pago</label>
+<select name="metodoPago" id="metodoPago" required>
+  <option value="">Seleccione una opción</option>
+  <option value="PUE">PUE - Pago en una sola exhibición</option>
+  <option value="PPD">PPD - Pago en parcialidades o diferido</option>
+</select>
+
+<label for="formaPago">Forma de Pago</label>
+<select name="formaPago" id="formaPago" required>
+  <option value="">Seleccione una opción</option>
+  <option value="01">01 - Efectivo</option>
+  <option value="03">03 - Transferencia electrónica de fondos</option>
+  <option value="04">04 - Tarjeta de crédito</option>
+  <option value="28">28 - Tarjeta de débito</option>
+  <option value="99">99 - Por definir</option>
+</select>
         <input type="text" name="entrega" placeholder="Dirección de Entrega" required />
         <input type="text" name="autorizado1" placeholder="Autorizado para compra 1" />
         <input type="text" name="autorizado2" placeholder="Autorizado para compra 2" />
