@@ -78,7 +78,19 @@
         <h2>Datos Generales del Cliente</h2>
         <input type="text" name="nombrefiscal" placeholder="Nombre Fiscal" required />
         <input type="text" name="rfc" placeholder="RFC" required />
-        <input type="text" name="regimen" placeholder="Regimen Fiscal" required />
+        <label for="regimenFiscal">Régimen Fiscal</label>
+<select name="regimenFiscal" id="regimenFiscal" required>
+  <option value="">Seleccione una opción</option>
+  <option value="601">General de Ley Personas Morales</option>
+  <option value="603">Personas Morales con Fines no Lucrativos</option>
+  <option value="605">Sueldos y Salarios e Ingresos Asimilados</option>
+  <option value="606">Arrendamiento</option>
+  <option value="608">Demás ingresos</option>
+  <option value="610">Residentes en el Extranjero sin Establecimiento Permanente</option>
+  <option value="612">Personas Físicas con Actividades Empresariales y Profesionales</option>
+  <option value="614">Servicios Profesionales</option>
+  <!-- Puedes seguir agregando más -->
+</select>
         <input type="text" name="direccion" placeholder="Direccion" required />
         <input type="text" name="numero" placeholder="Número" required />
         <input type="text" name="colonia" placeholder="Colonia" required />
