@@ -137,13 +137,14 @@
     // Guardar en Firebase
     document.getElementById("guardarBtn").addEventListener("click", () => {
       const form = document.getElementById("formularioCliente");
-      const data = {};
-      Array.from(form.elements).forEach(input => {
-        if (input.name) data[input.name] = input.value;
-      });
+     const data = {};
+Array.from(form.elements).forEach(input => {
+  if (input.name) data[input.name] = input.value;
+});
+data.timestamp = new Date(); // 🟢 Agrega fecha y hora al registro
 
-      db.collection("clientes").add(data)
-        .then(() => alert("Cliente guardado correctamente."))
+db.collection("clientes").add(data)
+  .then(() => alert("Cliente guardado correctamente."))
         .catch(error => alert("Error al guardar: " + error));
     });
   </script>
