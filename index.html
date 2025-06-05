@@ -69,10 +69,8 @@
       font-weight: bold;
     }
   </style>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
   <div class="container">
@@ -84,15 +82,14 @@
     <form id="formularioCliente">
       <section>
         <h2>Datos Generales del Cliente</h2>
-
-        <label for="nombrefiscalrazonsocial">Nombre Fiscal/Razon Social</label>
+        <label for="nombrefiscal">Nombre Fiscal/Razon Social</label>
         <input type="text" name="nombrefiscal" id="nombrefiscal" required />
 
         <label for="rfc">RFC</label>
         <input type="text" name="rfc" id="rfc" required />
 
-        <label for="regimenFiscal">Régimen Fiscal</label>
-        <select name="regimenFiscal" id="regimenFiscal" required>
+        <label for="regimenfiscal">Régimen Fiscal</label>
+        <select name="regimenfiscal" id="regimenfiscal" required>
           <option value="">Seleccione una opción</option>
           <option value="601">General de Ley Personas Morales</option>
           <option value="603">Personas Morales con Fines no Lucrativos</option>
@@ -140,7 +137,6 @@
 
       <section>
         <h2>Datos de Facturación</h2>
-
         <label for="cfdi">Uso de CFDI</label>
         <select name="cfdi" id="cfdi" required>
           <option value="">Seleccione una opción</option>
@@ -151,15 +147,15 @@
           <option value="P01">P01 - Por definir</option>
         </select>
 
-        <label for="metodoPago">Método de Pago</label>
-        <select name="metodoPago" id="metodoPago" required>
+        <label for="metodopago">Método de Pago</label>
+        <select name="metodopago" id="metodopago" required>
           <option value="">Seleccione una opción</option>
           <option value="PUE">PUE - Pago en una sola exhibición</option>
           <option value="PPD">PPD - Pago en parcialidades o diferido</option>
         </select>
 
-        <label for="formaPago">Forma de Pago</label>
-        <select name="formaPago" id="formaPago" required>
+        <label for="formapago">Forma de Pago</label>
+        <select name="formapago" id="formapago" required>
           <option value="">Seleccione una opción</option>
           <option value="01">01 - Efectivo</option>
           <option value="03">03 - Transferencia electrónica</option>
@@ -183,8 +179,8 @@
 
       <section>
         <h2>Condiciones Comerciales con el Cliente</h2>
-        <label for="Comentarios">Comentarios</label>
-        <input type="text" name="Comentarios" id="Comentarios" />
+        <label for="comentarios">Comentarios</label>
+        <input type="text" name="comentarios" id="comentarios" />
       </section>
 
       <div style="text-align: center;">
@@ -203,43 +199,35 @@
   </div>
 
   <script>
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDyb929si94uBKilI_YNGKZgU9SIqo_l4c",
-      authDomain: "alta-clientes-prov.firebaseapp.com",
-      projectId: "alta-clientes-prov",
-      storageBucket: "alta-clientes-prov.firebasestorage.app",
-      messagingSenderId: "300518490689",
-      appId: "1:300518490689:web:06390a6bbb0c018442bcc0"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const supabaseUrl = 'https://cvpbtjlupswbyxenugpz.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Guardar datos
-    document.getElementById("guardarBtn").addEventListener("click", () => {
+    document.getElementById("guardarBtn").addEventListener("click", async () => {
       const form = document.getElementById("formularioCliente");
       const guardarBtn = document.getElementById("guardarBtn");
       const data = {};
 
       Array.from(form.elements).forEach(input => {
-        if (input.name) data[input.name] = input.value;
+        if (input.name) data[input.name.toLowerCase()] = input.value;
       });
 
-      data.timestamp = new Date();
+      data.timestamp = new Date().toISOString();
       guardarBtn.disabled = true;
 
-      db.collection("clientes").add(data)
-        .then(() => {
-          document.getElementById("mensajeGuardado").style.display = "block";
-          form.reset();
-          setTimeout(() => {
-            document.getElementById("mensajeGuardado").style.display = "none";
-          }, 3000);
-        })
-        .catch(error => alert("Error al guardar: " + error))
-        .finally(() => {
-          guardarBtn.disabled = false;
-        });
+      const { error } = await supabase.from('clientes').insert([data]);
+
+      if (error) {
+        alert("❌ Error al guardar: " + error.message);
+      } else {
+        document.getElementById("mensajeGuardado").style.display = "block";
+        form.reset();
+        setTimeout(() => {
+          document.getElementById("mensajeGuardado").style.display = "none";
+        }, 3000);
+      }
+
+      guardarBtn.disabled = false;
     });
   </script>
 </body>
