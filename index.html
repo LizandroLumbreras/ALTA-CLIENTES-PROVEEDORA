@@ -12,6 +12,7 @@
       margin: 0;
       padding: 20px;
     }
+
     .container {
       background: white;
       padding: 20px;
@@ -20,20 +21,25 @@
       margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
     header {
       text-align: center;
     }
+
     .logo {
       max-width: 150px;
       margin-bottom: 10px;
     }
+
     h1 {
       margin: 0;
     }
+
     .busqueda {
       text-align: center;
       margin: 20px 0;
     }
+
     .busqueda input {
       padding: 10px;
       width: 60%;
@@ -41,6 +47,7 @@
       border-radius: 6px;
       border: 1px solid #ccc;
     }
+
     #buscarBtn {
       background-color: #ffc107;
       color: white;
@@ -51,12 +58,14 @@
       cursor: pointer;
       margin-left: 10px;
     }
+
     label {
       display: block;
       margin-top: 10px;
       font-weight: 500;
       font-size: 15px;
     }
+
     input, select {
       width: 100%;
       padding: 10px;
@@ -66,6 +75,7 @@
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
+
     button {
       width: 48%;
       padding: 12px;
@@ -76,12 +86,15 @@
       cursor: pointer;
       color: white;
     }
+
     #guardarBtn {
       background-color: #28a745;
     }
+
     #imprimirBtn {
       background-color: #007bff;
     }
+
     footer {
       text-align: center;
       margin-top: 30px;
@@ -115,10 +128,10 @@
         <option value="">Seleccione una opción</option>
         <option value="601">General de Ley Personas Morales</option>
         <option value="603">Personas Morales con Fines no Lucrativos</option>
-        <option value="605">Sueldos y Salarios e Ingresos Asimilados</option>
+        <option value="605">Sueldos y Salarios</option>
         <option value="606">Arrendamiento</option>
         <option value="608">Demás ingresos</option>
-        <option value="610">Residentes en el Extranjero sin Establecimiento Permanente</option>
+        <option value="610">Residentes en el Extranjero</option>
         <option value="612">Personas Físicas con Actividades Empresariales</option>
         <option value="614">Servicios Profesionales</option>
       </select>
@@ -171,14 +184,14 @@
       <select name="metodopago" id="metodopago" required>
         <option value="">Seleccione una opción</option>
         <option value="PUE">Pago en una sola exhibición</option>
-        <option value="PPD">Pago en parcialidades o diferido</option>
+        <option value="PPD">Pago en parcialidades</option>
       </select>
 
       <label for="formapago">Forma de Pago</label>
       <select name="formapago" id="formapago" required>
         <option value="">Seleccione una opción</option>
         <option value="01">Efectivo</option>
-        <option value="03">Transferencia electrónica</option>
+        <option value="03">Transferencia</option>
         <option value="04">Tarjeta de crédito</option>
         <option value="28">Tarjeta de débito</option>
         <option value="99">Por definir</option>
@@ -218,56 +231,17 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'
     );
 
-    document.getElementById("guardarBtn").addEventListener("click", async () => {
-      const form = document.getElementById("formularioCliente");
-      const guardarBtn = document.getElementById("guardarBtn");
-      const data = {};
-
-      Array.from(form.elements).forEach(input => {
-        if (input.name) data[input.name.toLowerCase()] = input.value;
-      });
-
-      data.timestamp = new Date().toISOString();
-      guardarBtn.disabled = true;
-
-      // ¿Existe ya el cliente?
-      const { data: existente, error: errorBuscar } = await supabase
-        .from("clientes")
-        .select("id")
-        .eq("rfc", data.rfc)
-        .single();
-
-      let resultado;
-      if (existente) {
-        resultado = await supabase.from("clientes").update(data).eq("rfc", data.rfc);
-        alert("🔁 Cliente actualizado.");
-      } else {
-        resultado = await supabase.from("clientes").insert([data]);
-        alert("✅ Cliente nuevo registrado.");
-      }
-
-      if (resultado.error) {
-        alert("❌ Error al guardar: " + resultado.error.message);
-      } else {
-        document.getElementById("mensajeGuardado").style.display = "block";
-        setTimeout(() => {
-          document.getElementById("mensajeGuardado").style.display = "none";
-        }, 3000);
-        form.reset();
-      }
-
-      guardarBtn.disabled = false;
-    });
-
     document.getElementById("buscarBtn").addEventListener("click", async () => {
-      const valorBusqueda = document.getElementById("busquedaInput").value.trim();
+      const valorBusqueda = document.getElementById("busquedaInput").value.trim().toLowerCase();
       if (!valorBusqueda) return alert("⚠️ Escribe un RFC o nombre para buscar.");
 
       const { data, error } = await supabase
         .from("clientes")
         .select("*")
-        .or(`rfc.ilike.%${valorBusqueda}%,nombrefiscal.ilike.%${valorBusqueda}%`)
+        .or(`rfc.ilike.*${valorBusqueda}*,nombrefiscal.ilike.*${valorBusqueda}*`)
         .limit(1);
+
+      console.log("Buscando:", valorBusqueda, data);
 
       if (error) {
         alert("❌ Error en búsqueda: " + error.message);
