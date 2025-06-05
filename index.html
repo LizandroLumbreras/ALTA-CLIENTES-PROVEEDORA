@@ -63,13 +63,33 @@
     #imprimirBtn {
       background-color: #007bff;
     }
+    #buscarBtn {
+      background-color: #ffc107;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
     footer {
       text-align: center;
       margin-top: 30px;
       font-weight: bold;
     }
+    .busqueda {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .busqueda input {
+      padding: 10px;
+      width: 60%;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
   </style>
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
@@ -78,6 +98,12 @@
       <img src="logo_proveedora.jpg" alt="Logo La Proveedora" class="logo" />
       <h1>Formato de Alta de Clientes</h1>
     </header>
+
+    <!-- Buscador -->
+    <div class="busqueda">
+      <input type="text" id="busquedaInput" placeholder="Buscar por RFC o Nombre Fiscal">
+      <button id="buscarBtn">Buscar Cliente</button>
+    </div>
 
     <form id="formularioCliente">
       <section>
@@ -228,6 +254,39 @@
       }
 
       guardarBtn.disabled = false;
+    });
+
+    document.getElementById("buscarBtn").addEventListener("click", async () => {
+      const valorBusqueda = document.getElementById("busquedaInput").value.trim();
+      if (!valorBusqueda) {
+        alert("⚠️ Ingresa un RFC o Nombre Fiscal para buscar");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('clientes')
+        .select('*')
+        .or(`rfc.ilike.%${valorBusqueda}%,nombrefiscal.ilike.%${valorBusqueda}%`)
+        .limit(1);
+
+      if (error) {
+        alert("❌ Error en la búsqueda: " + error.message);
+        return;
+      }
+
+      if (data.length === 0) {
+        alert("Cliente no encontrado");
+        return;
+      }
+
+      const cliente = data[0];
+      const form = document.getElementById("formularioCliente");
+      for (const key in cliente) {
+        const input = form.elements[key.toLowerCase()];
+        if (input) input.value = cliente[key];
+      }
+
+      alert("✅ Cliente encontrado y cargado en el formulario");
     });
   </script>
 </body>
