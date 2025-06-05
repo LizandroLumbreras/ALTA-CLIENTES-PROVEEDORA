@@ -12,24 +12,33 @@
       margin: 0;
       padding: 20px;
     }
+
     .container {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
     header {
       text-align: center;
     }
-    header .logo {
+
+    .logo {
       max-width: 150px;
     }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
     h2 {
       margin-top: 30px;
       color: #333;
     }
+
     label {
       display: block;
       margin-top: 10px;
@@ -37,6 +46,7 @@
       color: #333;
       font-size: 15px;
     }
+
     input, select {
       width: 100%;
       padding: 10px;
@@ -47,6 +57,7 @@
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
+
     button {
       width: 48%;
       padding: 12px;
@@ -57,12 +68,15 @@
       cursor: pointer;
       color: white;
     }
+
     #guardarBtn {
       background-color: #28a745;
     }
+
     #imprimirBtn {
       background-color: #007bff;
     }
+
     #buscarBtn {
       background-color: #ffc107;
       color: white;
@@ -73,21 +87,24 @@
       cursor: pointer;
       margin-top: 10px;
     }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-weight: bold;
-    }
+
     .busqueda {
       text-align: center;
       margin-bottom: 20px;
     }
+
     .busqueda input {
       padding: 10px;
       width: 60%;
       font-size: 16px;
       border-radius: 6px;
       border: 1px solid #ccc;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-weight: bold;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -99,7 +116,6 @@
       <h1>Formato de Alta de Clientes</h1>
     </header>
 
-    <!-- Buscador -->
     <div class="busqueda">
       <input type="text" id="busquedaInput" placeholder="Buscar por RFC o Nombre Fiscal">
       <button id="buscarBtn">Buscar Cliente</button>
@@ -226,7 +242,7 @@
 
   <script>
     const supabaseUrl = 'https://cvpbtjlupswbyxenugpz.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Tu clave completa aquí
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById("guardarBtn").addEventListener("click", async () => {
