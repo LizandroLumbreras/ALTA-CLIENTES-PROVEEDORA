@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -12,70 +11,41 @@
       margin: 0;
       padding: 20px;
     }
-
     .container {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      max-width: 800px;
+      max-width: 600px;
       margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     header {
       text-align: center;
     }
-
-    .logo {
+    header .logo {
       max-width: 150px;
-      margin-bottom: 10px;
     }
-
-    h1 {
-      margin: 0;
+    h2 {
+      margin-top: 30px;
+      color: #333;
     }
-
-    .busqueda {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .busqueda input {
-      padding: 10px;
-      width: 60%;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    #buscarBtn {
-      background-color: #ffc107;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-
     label {
       display: block;
       margin-top: 10px;
       font-weight: 500;
+      color: #333;
       font-size: 15px;
     }
-
     input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
+      margin-bottom: 10px;
       font-size: 16px;
       border-radius: 5px;
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
-
     button {
       width: 48%;
       padding: 12px;
@@ -86,22 +56,21 @@
       cursor: pointer;
       color: white;
     }
-
     #guardarBtn {
       background-color: #28a745;
     }
-
     #imprimirBtn {
       background-color: #007bff;
     }
-
     footer {
       text-align: center;
       margin-top: 30px;
       font-weight: bold;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- Firebase SDKs -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
   <div class="container">
@@ -110,111 +79,115 @@
       <h1>Formato de Alta de Clientes</h1>
     </header>
 
-    <div class="busqueda">
-      <input type="text" id="busquedaInput" placeholder="Buscar por RFC o Nombre Fiscal">
-      <button id="buscarBtn">Buscar Cliente</button>
-    </div>
-
     <form id="formularioCliente">
-      <h2>Datos Generales del Cliente</h2>
-      <label for="nombrefiscal">Nombre Fiscal/Razón Social</label>
-      <input type="text" name="nombrefiscal" id="nombrefiscal" required>
+      <section>
+        <h2>Datos Generales del Cliente</h2>
 
-      <label for="rfc">RFC</label>
-      <input type="text" name="rfc" id="rfc" required>
+        <label for="nombrefiscalrazonsocial">Nombre Fiscal/Razon Social</label>
+        <input type="text" name="nombrefiscal" id="nombrefiscal" required />
+<ul id="sugerencias" style="list-style:none; padding:0; margin:0; border:1px solid #ccc; background:white; max-height:150px; overflow-y:auto; display:none;"></ul>
+        <label for="rfc">RFC</label>
+        <input type="text" name="rfc" id="rfc" required />
 
-      <label for="regimenfiscal">Régimen Fiscal</label>
-      <select name="regimenfiscal" id="regimenfiscal" required>
-        <option value="">Seleccione una opción</option>
-        <option value="601">General de Ley Personas Morales</option>
-        <option value="603">Personas Morales con Fines no Lucrativos</option>
-        <option value="605">Sueldos y Salarios</option>
-        <option value="606">Arrendamiento</option>
-        <option value="608">Demás ingresos</option>
-        <option value="610">Residentes en el Extranjero</option>
-        <option value="612">Personas Físicas con Actividades Empresariales</option>
-        <option value="614">Servicios Profesionales</option>
-      </select>
+        <label for="regimenFiscal">Régimen Fiscal</label>
+        <select name="regimenFiscal" id="regimenFiscal" required>
+          <option value="">Seleccione una opción</option>
+          <option value="601">General de Ley Personas Morales</option>
+          <option value="603">Personas Morales con Fines no Lucrativos</option>
+          <option value="605">Sueldos y Salarios e Ingresos Asimilados</option>
+          <option value="606">Arrendamiento</option>
+          <option value="608">Demás ingresos</option>
+          <option value="610">Residentes en el Extranjero sin Establecimiento Permanente</option>
+          <option value="612">Personas Físicas con Actividades Empresariales y Profesionales</option>
+          <option value="614">Servicios Profesionales</option>
+        </select>
 
-      <label for="direccion">Dirección</label>
-      <input type="text" name="direccion" id="direccion" required>
+        <label for="direccion">Dirección</label>
+        <input type="text" name="direccion" id="direccion" required />
 
-      <label for="numero">Número</label>
-      <input type="text" name="numero" id="numero" required>
+        <label for="numero">Número</label>
+        <input type="text" name="numero" id="numero" required />
 
-      <label for="colonia">Colonia</label>
-      <input type="text" name="colonia" id="colonia" required>
+        <label for="colonia">Colonia</label>
+        <input type="text" name="colonia" id="colonia" required />
 
-      <label for="cp">Código Postal</label>
-      <input type="text" name="cp" id="cp" required>
+        <label for="cp">Código Postal</label>
+        <input type="text" name="cp" id="cp" required />
 
-      <label for="municipio">Municipio</label>
-      <input type="text" name="municipio" id="municipio" required>
+        <label for="municipio">Municipio</label>
+        <input type="text" name="municipio" id="municipio" required />
 
-      <label for="ciudad">Ciudad</label>
-      <input type="text" name="ciudad" id="ciudad" required>
+        <label for="ciudad">Ciudad</label>
+        <input type="text" name="ciudad" id="ciudad" required />
 
-      <label for="estado">Estado</label>
-      <input type="text" name="estado" id="estado" required>
+        <label for="estado">Estado</label>
+        <input type="text" name="estado" id="estado" required />
 
-      <label for="pais">País</label>
-      <input type="text" name="pais" id="pais" required>
+        <label for="pais">País</label>
+        <input type="text" name="pais" id="pais" required />
 
-      <label for="telefono">Teléfono</label>
-      <input type="text" name="telefono" id="telefono" required>
+        <label for="telefono">Teléfono</label>
+        <input type="tel" name="telefono" id="telefono" required />
 
-      <label for="whatsapp">WhatsApp</label>
-      <input type="text" name="whatsapp" id="whatsapp" required>
+        <label for="whatsapp">WhatsApp</label>
+        <input type="text" name="whatsapp" id="whatsapp" required />
 
-      <label for="email">Correo Electrónico</label>
-      <input type="email" name="email" id="email" required>
+        <label for="email">Correo Electrónico</label>
+        <input type="email" name="email" id="email" required />
+      </section>
 
-      <h2>Datos de Facturación</h2>
-      <label for="cfdi">Uso de CFDI</label>
-      <select name="cfdi" id="cfdi" required>
-        <option value="">Seleccione una opción</option>
-        <option value="G01">Adquisición de mercancías</option>
-        <option value="G03">Gastos en general</option>
-        <option value="I01">Construcciones</option>
-        <option value="D01">Honorarios médicos</option>
-        <option value="P01">Por definir</option>
-      </select>
+      <section>
+        <h2>Datos de Facturación</h2>
 
-      <label for="metodopago">Método de Pago</label>
-      <select name="metodopago" id="metodopago" required>
-        <option value="">Seleccione una opción</option>
-        <option value="PUE">Pago en una sola exhibición</option>
-        <option value="PPD">Pago en parcialidades</option>
-      </select>
+        <label for="cfdi">Uso de CFDI</label>
+        <select name="cfdi" id="cfdi" required>
+          <option value="">Seleccione una opción</option>
+          <option value="G01">G01 - Adquisición de mercancías</option>
+          <option value="G03">G03 - Gastos en general</option>
+          <option value="I01">I01 - Construcciones</option>
+          <option value="D01">D01 - Honorarios médicos</option>
+          <option value="P01">P01 - Por definir</option>
+        </select>
 
-      <label for="formapago">Forma de Pago</label>
-      <select name="formapago" id="formapago" required>
-        <option value="">Seleccione una opción</option>
-        <option value="01">Efectivo</option>
-        <option value="03">Transferencia</option>
-        <option value="04">Tarjeta de crédito</option>
-        <option value="28">Tarjeta de débito</option>
-        <option value="99">Por definir</option>
-      </select>
+        <label for="metodoPago">Método de Pago</label>
+        <select name="metodoPago" id="metodoPago" required>
+          <option value="">Seleccione una opción</option>
+          <option value="PUE">PUE - Pago en una sola exhibición</option>
+          <option value="PPD">PPD - Pago en parcialidades o diferido</option>
+        </select>
 
-      <label for="entrega">Dirección de Entrega</label>
-      <input type="text" name="entrega" id="entrega" required>
+        <label for="formaPago">Forma de Pago</label>
+        <select name="formaPago" id="formaPago" required>
+          <option value="">Seleccione una opción</option>
+          <option value="01">01 - Efectivo</option>
+          <option value="03">03 - Transferencia electrónica</option>
+          <option value="04">04 - Tarjeta de crédito</option>
+          <option value="28">28 - Tarjeta de débito</option>
+          <option value="99">99 - Por definir</option>
+        </select>
 
-      <label for="autorizado1">Autorizado para compra 1</label>
-      <input type="text" name="autorizado1" id="autorizado1">
+        <label for="entrega">Dirección de Entrega</label>
+        <input type="text" name="entrega" id="entrega" required />
 
-      <label for="autorizado2">Autorizado para compra 2</label>
-      <input type="text" name="autorizado2" id="autorizado2">
+        <label for="autorizado1">Autorizado para compra 1</label>
+        <input type="text" name="autorizado1" id="autorizado1" />
 
-      <label for="autorizado3">Autorizado para compra 3</label>
-      <input type="text" name="autorizado3" id="autorizado3">
+        <label for="autorizado2">Autorizado para compra 2</label>
+        <input type="text" name="autorizado2" id="autorizado2" />
 
-      <label for="comentarios">Comentarios</label>
-      <input type="text" name="comentarios" id="comentarios">
+        <label for="autorizado3">Autorizado para compra 3</label>
+        <input type="text" name="autorizado3" id="autorizado3" />
+      </section>
 
-      <div style="text-align:center">
-        <button type="button" id="guardarBtn">Guardar</button>
-        <button type="button" id="imprimirBtn" onclick="window.print()">Imprimir</button>
+      <section>
+        <h2>Condiciones Comerciales con el Cliente</h2>
+        <label for="Comentarios">Comentarios</label>
+        <input type="text" name="Comentarios" id="Comentarios" />
+      </section>
+
+      <div style="text-align: center;">
+        <button id="guardarBtn" type="button">Guardar</button>
+        <button id="imprimirBtn" type="button" onclick="window.print()">Imprimir Formato</button>
       </div>
     </form>
 
@@ -222,46 +195,125 @@
       Cliente guardado correctamente.
     </div>
 
-    <footer><p>LA PROVEEDORA S.A. DE C.V</p></footer>
+    <footer>
+      <p>LA PROVEEDORA S.A. DE C.V</p>
+    </footer>
   </div>
 
   <script>
-    const supabase = supabase.createClient(
-      'https://cvpbtjlupswbyxenugpz.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'
-    );
+const supabaseUrl = 'https://cvpbtjlupswbyxenugpz.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'; // tu anon key
+const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-    document.getElementById("buscarBtn").addEventListener("click", async () => {
-      const valorBusqueda = document.getElementById("busquedaInput").value.trim().toLowerCase();
-      if (!valorBusqueda) return alert("⚠️ Escribe un RFC o nombre para buscar.");
 
-      const { data, error } = await supabase
+    // Guardar datos
+    document.getElementById("guardarBtn").addEventListener("click", async () => {
+      const form = document.getElementById("formularioCliente");
+      const guardarBtn = document.getElementById("guardarBtn");
+      const data = {};
+
+      Array.from(form.elements).forEach(input => {
+        if (input.name) data[input.name] = input.value;
+      });
+
+      data.timestamp = new Date();
+      guardarBtn.disabled = true;
+
+      await client.from('clientes').insert([data])
+        .then(() => {
+          document.getElementById("mensajeGuardado").style.display = "block";
+          form.reset();
+          setTimeout(() => {
+            document.getElementById("mensajeGuardado").style.display = "none";
+          }, 3000);
+        })
+        .catch(error => alert("Error al guardar: " + error))
+        .finally(() => {
+          guardarBtn.disabled = false;
+        });
+    });
+
+// Buscar cliente al presionar Enter en el campo de nombre fiscal
+document.getElementById("nombrefiscal").addEventListener("keydown", async (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Evita que el formulario se envíe
+
+    const valor = event.target.value.trim().toLowerCase();
+    if (valor.length < 3) return;
+
+    try {
+      const { data, error } = await client
         .from("clientes")
         .select("*")
-        .or(`rfc.ilike.*${valorBusqueda}*,nombrefiscal.ilike.*${valorBusqueda}*`)
+        .ilike("nombrefiscal", `%${valor}%`)
         .limit(1);
 
-      console.log("Buscando:", valorBusqueda, data);
-
       if (error) {
-        alert("❌ Error en búsqueda: " + error.message);
+        console.error("Error en consulta:", error);
         return;
       }
 
-      if (!data.length) {
-        alert("⚠️ Cliente no encontrado.");
-        return;
-      }
+      if (data && data.length > 0) {
+        const cliente = data[0];
+        const form = document.getElementById("formularioCliente");
 
-      const cliente = data[0];
-      const form = document.getElementById("formularioCliente");
-      for (const key in cliente) {
-        const input = form.elements[key.toLowerCase()];
-        if (input) input.value = cliente[key];
-      }
+        for (const key in cliente) {
+          const input = form.elements[key];
+          if (input) input.value = cliente[key];
+        }
 
-      alert("✅ Cliente cargado en el formulario.");
+        document.getElementById("mensajeGuardado").style.display = "block";
+        document.getElementById("mensajeGuardado").innerText = "✅ Cliente cargado automáticamente.";
+        setTimeout(() => {
+          document.getElementById("mensajeGuardado").style.display = "none";
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error en búsqueda automática:", error);
+    }
+  }
+});
+const inputNombre = document.getElementById("nombrefiscal");
+const sugerencias = document.getElementById("sugerencias");
+
+inputNombre.addEventListener("input", async () => {
+  const valor = inputNombre.value.trim().toLowerCase();
+  sugerencias.innerHTML = "";
+  sugerencias.style.display = "none";
+
+  if (valor.length < 2) return;
+
+  const { data, error } = await client
+    .from("clientes")
+    .select("nombrefiscal")
+    .ilike("nombrefiscal", `%${valor}%`)
+    .limit(5);
+
+  if (error || !data || data.length === 0) return;
+
+  data.forEach(cliente => {
+    const item = document.createElement("li");
+    item.textContent = cliente.nombrefiscal;
+    item.style.padding = "8px";
+    item.style.cursor = "pointer";
+    item.addEventListener("click", () => {
+      inputNombre.value = cliente.nombrefiscal;
+      sugerencias.innerHTML = "";
+      sugerencias.style.display = "none";
+      inputNombre.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
     });
-  </script>
+    sugerencias.appendChild(item);
+  });
+
+  sugerencias.style.display = "block";
+});
+
+// Ocultar sugerencias al perder foco
+inputNombre.addEventListener("blur", () => {
+  setTimeout(() => sugerencias.style.display = "none", 150);
+});
+
+
+</script>
 </body>
 </html>
