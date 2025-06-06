@@ -202,7 +202,8 @@
           alert('Cliente registrado exitosamente');
           limpiarFormulario();
         } else {
-          alert('Error al registrar: ' + error.message);
+          console.log("Error al registrar cliente:", error);
+          alert('Error al registrar: ' + (error.message || 'Ver consola'));
         }
       }
     };
