@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Cliente</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clientes - Alta y Edición</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-    input, button { padding: 10px; margin: 5px 0; width: 100%; max-width: 400px; }
+    input, button, select {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      max-width: 400px;
+    }
     .campo { margin-bottom: 15px; }
     .sugerencias {
       background: white;
@@ -26,95 +31,150 @@
   </style>
 </head>
 <body>
-  <h2>Editar Cliente</h2>
 
+<h2>Clientes - Alta y Edición</h2>
+
+<div class="campo">
+  <label for="busqueda">Buscar cliente:</label>
+  <input type="text" id="busqueda" autocomplete="off">
+  <div id="sugerencias" class="sugerencias"></div>
+</div>
+
+<div id="formulario">
   <div class="campo">
-    <label for="busqueda">Buscar cliente:</label>
-    <input type="text" id="busqueda" autocomplete="off">
-    <div id="sugerencias" class="sugerencias"></div>
+    <label for="nombrefiscal">Nombre Fiscal:</label>
+    <input type="text" id="nombrefiscal">
+  </div>
+  <div class="campo">
+    <label for="rfc">RFC:</label>
+    <input type="text" id="rfc">
+  </div>
+  <div class="campo">
+    <label for="regimenfiscal">Régimen Fiscal:</label>
+    <input type="text" id="regimenfiscal">
+  </div>
+  <div class="campo">
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion">
   </div>
 
-  <div id="formulario" style="display:none">
-    <div class="campo">
-      <label for="nombrefiscal">Nombre Fiscal:</label>
-      <input type="text" id="nombrefiscal" disabled>
-    </div>
-    <button id="editar">✏️ Editar</button>
-    <button id="guardar" style="display:none">💾 Guardar</button>
-  </div>
+  <button id="guardar">💾 Guardar</button>
+</div>
 
-  <script>
-    const { createClient } = supabase;
-    const supabaseClient = createClient(
-      'https://cvpbtjlupswbyxenugpz.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'
-    );
+<script>
+  const { createClient } = supabase;
+  const supabaseClient = createClient(
+    'https://cvpbtjlupswbyxenugpz.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'
+  );
 
-    const busqueda = document.getElementById('busqueda');
-    const sugerencias = document.getElementById('sugerencias');
-    const formulario = document.getElementById('formulario');
-    const nombrefiscal = document.getElementById('nombrefiscal');
-    const editarBtn = document.getElementById('editar');
-    const guardarBtn = document.getElementById('guardar');
+  const busqueda = document.getElementById('busqueda');
+  const sugerencias = document.getElementById('sugerencias');
+  const nombrefiscal = document.getElementById('nombrefiscal');
+  const rfc = document.getElementById('rfc');
+  const regimenfiscal = document.getElementById('regimenfiscal');
+  const direccion = document.getElementById('direccion');
+  const guardarBtn = document.getElementById('guardar');
 
-    let clienteSeleccionado = null;
+  let clienteSeleccionado = null;
 
-    busqueda.addEventListener('input', async () => {
-      const texto = busqueda.value.trim();
-      if (texto.length < 2) {
-        sugerencias.innerHTML = '';
-        return;
-      }
-
-      const { data, error } = await supabaseClient
-        .from('clientes')
-        .select('id, nombrefiscal')
-        .ilike('nombrefiscal', `%${texto}%`)
-        .limit(5);
-
+  busqueda.addEventListener('input', async () => {
+    const texto = busqueda.value.trim();
+    if (texto.length < 2) {
       sugerencias.innerHTML = '';
-      if (data) {
-        data.forEach(c => {
-          const div = document.createElement('div');
-          div.textContent = c.nombrefiscal;
-          div.onclick = () => seleccionarCliente(c);
-          sugerencias.appendChild(div);
-        });
-      }
-    });
-
-    function seleccionarCliente(cliente) {
-      clienteSeleccionado = cliente;
-      busqueda.value = cliente.nombrefiscal;
-      nombrefiscal.value = cliente.nombrefiscal;
-      formulario.style.display = 'block';
-      sugerencias.innerHTML = '';
+      return;
     }
 
-    editarBtn.onclick = () => {
-      nombrefiscal.disabled = false;
-      guardarBtn.style.display = 'inline';
-      editarBtn.style.display = 'none';
+    const { data, error } = await supabaseClient
+      .from('clientes')
+      .select('id, nombrefiscal, rfc, regimenfiscal, direccion')
+      .ilike('nombrefiscal', `%${texto}%`)
+      .limit(5);
+
+    sugerencias.innerHTML = '';
+    if (data) {
+      data.forEach(c => {
+        const div = document.createElement('div');
+        div.textContent = c.nombrefiscal;
+        div.onclick = () => seleccionarCliente(c);
+        sugerencias.appendChild(div);
+      });
+    }
+  });
+
+  function seleccionarCliente(cliente) {
+    clienteSeleccionado = cliente;
+    busqueda.value = cliente.nombrefiscal;
+    nombrefiscal.value = cliente.nombrefiscal;
+    rfc.value = cliente.rfc || '';
+    regimenfiscal.value = cliente.regimenfiscal || '';
+    direccion.value = cliente.direccion || '';
+    sugerencias.innerHTML = '';
+  }
+
+  guardarBtn.onclick = async () => {
+    const nombre = nombrefiscal.value.trim();
+    const rfcValor = rfc.value.trim();
+    const regimenValor = regimenfiscal.value.trim();
+    const direccionValor = direccion.value.trim();
+
+    if (!nombre) {
+      alert('El nombre fiscal es obligatorio.');
+      return;
     }
 
-    guardarBtn.onclick = async () => {
-      const nuevoNombre = nombrefiscal.value.trim();
-      if (!clienteSeleccionado || !nuevoNombre) return;
-
+    if (clienteSeleccionado) {
+      // ACTUALIZAR CLIENTE
       const { error } = await supabaseClient
         .from('clientes')
-        .update({ nombrefiscal: nuevoNombre })
+        .update({
+          nombrefiscal: nombre,
+          rfc: rfcValor,
+          regimenfiscal: regimenValor,
+          direccion: direccionValor
+        })
         .eq('id', clienteSeleccionado.id);
 
       if (!error) {
-        alert('Nombre actualizado');
-        editarBtn.style.display = 'inline';
-        guardarBtn.style.display = 'none';
-        nombrefiscal.disabled = true;
+        alert('Cliente actualizado correctamente');
       } else {
-        alert('Error al guardar');
+        alert('Error al actualizar: ' + error.message);
+      }
+    } else {
+      // NUEVO CLIENTE
+      const { error } = await supabaseClient
+        .from('clientes')
+        .insert([{
+          nombrefiscal: nombre,
+          rfc: rfcValor,
+          regimenfiscal: regimenValor,
+          direccion: direccionValor
+        }]);
+
+      if (!error) {
+        alert('Cliente registrado exitosamente');
+        limpiarFormulario();
+      } else {
+        alert('Error al registrar: ' + error.message);
       }
     }
-  </script>
+  };
+
+  function limpiarFormulario() {
+    clienteSeleccionado = null;
+    busqueda.value = '';
+    nombrefiscal.value = '';
+    rfc.value = '';
+    regimenfiscal.value = '';
+    direccion.value = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!sugerencias.contains(e.target) && e.target !== busqueda) {
+      sugerencias.innerHTML = '';
+    }
+  });
+</script>
+
 </body>
 </html>
