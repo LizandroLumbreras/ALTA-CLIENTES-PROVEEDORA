@@ -1,319 +1,120 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alta de Cliente - La Proveedora</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Cliente</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    input, button { padding: 10px; margin: 5px 0; width: 100%; max-width: 400px; }
+    .campo { margin-bottom: 15px; }
+    .sugerencias {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    header {
-      text-align: center;
-    }
-    header .logo {
-      max-width: 150px;
-    }
-    h2 {
-      margin-top: 30px;
-      color: #333;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 500;
-      color: #333;
-      font-size: 15px;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      border-radius: 5px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
+      max-width: 400px;
+      position: absolute;
+      z-index: 1;
     }
-    button {
-      width: 48%;
-      padding: 12px;
-      font-size: 16px;
-      margin: 10px 1%;
-      border: none;
-      border-radius: 8px;
+    .sugerencias div {
+      padding: 8px;
       cursor: pointer;
-      color: white;
     }
-    #guardarBtn {
-      background-color: #28a745;
-    }
-    #imprimirBtn {
-      background-color: #007bff;
-    }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-weight: bold;
+    .sugerencias div:hover {
+      background: #e0e0e0;
     }
   </style>
-
-  <!-- Firebase SDKs -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="logo_proveedora.jpg" alt="Logo La Proveedora" class="logo" />
-      <h1>Formato de Alta de Clientes</h1>
-    </header>
+  <h2>Editar Cliente</h2>
 
-    <form id="formularioCliente">
-      <section>
-        <h2>Datos Generales del Cliente</h2>
+  <div class="campo">
+    <label for="busqueda">Buscar cliente:</label>
+    <input type="text" id="busqueda" autocomplete="off">
+    <div id="sugerencias" class="sugerencias"></div>
+  </div>
 
-        <label for="nombrefiscalrazonsocial">Nombre Fiscal/Razon Social</label>
-        <input type="text" name="nombrefiscal" id="nombrefiscal" required />
-<ul id="sugerencias" style="list-style:none; padding:0; margin:0; border:1px solid #ccc; background:white; max-height:150px; overflow-y:auto; display:none;"></ul>
-        <label for="rfc">RFC</label>
-        <input type="text" name="rfc" id="rfc" required />
-
-        <label for="regimenFiscal">Régimen Fiscal</label>
-        <select name="regimenFiscal" id="regimenFiscal" required>
-          <option value="">Seleccione una opción</option>
-          <option value="601">General de Ley Personas Morales</option>
-          <option value="603">Personas Morales con Fines no Lucrativos</option>
-          <option value="605">Sueldos y Salarios e Ingresos Asimilados</option>
-          <option value="606">Arrendamiento</option>
-          <option value="608">Demás ingresos</option>
-          <option value="610">Residentes en el Extranjero sin Establecimiento Permanente</option>
-          <option value="612">Personas Físicas con Actividades Empresariales y Profesionales</option>
-          <option value="614">Servicios Profesionales</option>
-        </select>
-
-        <label for="direccion">Dirección</label>
-        <input type="text" name="direccion" id="direccion" required />
-
-        <label for="numero">Número</label>
-        <input type="text" name="numero" id="numero" required />
-
-        <label for="colonia">Colonia</label>
-        <input type="text" name="colonia" id="colonia" required />
-
-        <label for="cp">Código Postal</label>
-        <input type="text" name="cp" id="cp" required />
-
-        <label for="municipio">Municipio</label>
-        <input type="text" name="municipio" id="municipio" required />
-
-        <label for="ciudad">Ciudad</label>
-        <input type="text" name="ciudad" id="ciudad" required />
-
-        <label for="estado">Estado</label>
-        <input type="text" name="estado" id="estado" required />
-
-        <label for="pais">País</label>
-        <input type="text" name="pais" id="pais" required />
-
-        <label for="telefono">Teléfono</label>
-        <input type="tel" name="telefono" id="telefono" required />
-
-        <label for="whatsapp">WhatsApp</label>
-        <input type="text" name="whatsapp" id="whatsapp" required />
-
-        <label for="email">Correo Electrónico</label>
-        <input type="email" name="email" id="email" required />
-      </section>
-
-      <section>
-        <h2>Datos de Facturación</h2>
-
-        <label for="cfdi">Uso de CFDI</label>
-        <select name="cfdi" id="cfdi" required>
-          <option value="">Seleccione una opción</option>
-          <option value="G01">G01 - Adquisición de mercancías</option>
-          <option value="G03">G03 - Gastos en general</option>
-          <option value="I01">I01 - Construcciones</option>
-          <option value="D01">D01 - Honorarios médicos</option>
-          <option value="P01">P01 - Por definir</option>
-        </select>
-
-        <label for="metodoPago">Método de Pago</label>
-        <select name="metodoPago" id="metodoPago" required>
-          <option value="">Seleccione una opción</option>
-          <option value="PUE">PUE - Pago en una sola exhibición</option>
-          <option value="PPD">PPD - Pago en parcialidades o diferido</option>
-        </select>
-
-        <label for="formaPago">Forma de Pago</label>
-        <select name="formaPago" id="formaPago" required>
-          <option value="">Seleccione una opción</option>
-          <option value="01">01 - Efectivo</option>
-          <option value="03">03 - Transferencia electrónica</option>
-          <option value="04">04 - Tarjeta de crédito</option>
-          <option value="28">28 - Tarjeta de débito</option>
-          <option value="99">99 - Por definir</option>
-        </select>
-
-        <label for="entrega">Dirección de Entrega</label>
-        <input type="text" name="entrega" id="entrega" required />
-
-        <label for="autorizado1">Autorizado para compra 1</label>
-        <input type="text" name="autorizado1" id="autorizado1" />
-
-        <label for="autorizado2">Autorizado para compra 2</label>
-        <input type="text" name="autorizado2" id="autorizado2" />
-
-        <label for="autorizado3">Autorizado para compra 3</label>
-        <input type="text" name="autorizado3" id="autorizado3" />
-      </section>
-
-      <section>
-        <h2>Condiciones Comerciales con el Cliente</h2>
-        <label for="Comentarios">Comentarios</label>
-        <input type="text" name="Comentarios" id="Comentarios" />
-      </section>
-
-      <div style="text-align: center;">
-        <button id="guardarBtn" type="button">Guardar</button>
-        <button id="imprimirBtn" type="button" onclick="window.print()">Imprimir Formato</button>
-      </div>
-    </form>
-
-    <div id="mensajeGuardado" style="display:none; text-align:center; margin-top:15px; font-weight: bold; color: green;">
-      Cliente guardado correctamente.
+  <div id="formulario" style="display:none">
+    <div class="campo">
+      <label for="nombrefiscal">Nombre Fiscal:</label>
+      <input type="text" id="nombrefiscal" disabled>
     </div>
-
-    <footer>
-      <p>LA PROVEEDORA S.A. DE C.V</p>
-    </footer>
+    <button id="editar">✏️ Editar</button>
+    <button id="guardar" style="display:none">💾 Guardar</button>
   </div>
 
   <script>
-const supabaseUrl = 'https://cvpbtjlupswbyxenugpz.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'; // tu anon key
-const client = supabase.createClient(supabaseUrl, supabaseKey);
+    const { createClient } = supabase;
+    const supabaseClient = createClient(
+      'https://cvpbtjlupswbyxenugpz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cGJ0amx1cHN3Ynl4ZW51Z3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc3MDIxOTQsImV4cCI6MjA2MzI3ODE5NH0.iiJsYM3TtaGPdeCtPcEXwAz3LfFc1uJGECEvOErvrqY'
+    );
 
+    const busqueda = document.getElementById('busqueda');
+    const sugerencias = document.getElementById('sugerencias');
+    const formulario = document.getElementById('formulario');
+    const nombrefiscal = document.getElementById('nombrefiscal');
+    const editarBtn = document.getElementById('editar');
+    const guardarBtn = document.getElementById('guardar');
 
-    // Guardar datos
-    document.getElementById("guardarBtn").addEventListener("click", async () => {
-      const form = document.getElementById("formularioCliente");
-      const guardarBtn = document.getElementById("guardarBtn");
-      const data = {};
+    let clienteSeleccionado = null;
 
-      Array.from(form.elements).forEach(input => {
-        if (input.name) data[input.name] = input.value;
-      });
-
-      data.timestamp = new Date();
-      guardarBtn.disabled = true;
-
-      await client.from('clientes').insert([data])
-        .then(() => {
-          document.getElementById("mensajeGuardado").style.display = "block";
-          form.reset();
-          setTimeout(() => {
-            document.getElementById("mensajeGuardado").style.display = "none";
-          }, 3000);
-        })
-        .catch(error => alert("Error al guardar: " + error))
-        .finally(() => {
-          guardarBtn.disabled = false;
-        });
-    });
-
-// Buscar cliente al presionar Enter en el campo de nombre fiscal
-document.getElementById("nombrefiscal").addEventListener("keydown", async (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault(); // Evita que el formulario se envíe
-
-    const valor = event.target.value.trim().toLowerCase();
-    if (valor.length < 3) return;
-
-    try {
-      const { data, error } = await client
-        .from("clientes")
-        .select("*")
-        .ilike("nombrefiscal", `%${valor}%`)
-        .limit(1);
-
-      if (error) {
-        console.error("Error en consulta:", error);
+    busqueda.addEventListener('input', async () => {
+      const texto = busqueda.value.trim();
+      if (texto.length < 2) {
+        sugerencias.innerHTML = '';
         return;
       }
 
-      if (data && data.length > 0) {
-        const cliente = data[0];
-        const form = document.getElementById("formularioCliente");
+      const { data, error } = await supabaseClient
+        .from('clientes')
+        .select('id, nombrefiscal')
+        .ilike('nombrefiscal', `%${texto}%`)
+        .limit(5);
 
-        for (const key in cliente) {
-          const input = form.elements[key];
-          if (input) input.value = cliente[key];
-        }
-
-        document.getElementById("mensajeGuardado").style.display = "block";
-        document.getElementById("mensajeGuardado").innerText = "✅ Cliente cargado automáticamente.";
-        setTimeout(() => {
-          document.getElementById("mensajeGuardado").style.display = "none";
-        }, 3000);
+      sugerencias.innerHTML = '';
+      if (data) {
+        data.forEach(c => {
+          const div = document.createElement('div');
+          div.textContent = c.nombrefiscal;
+          div.onclick = () => seleccionarCliente(c);
+          sugerencias.appendChild(div);
+        });
       }
-    } catch (error) {
-      console.error("Error en búsqueda automática:", error);
-    }
-  }
-});
-const inputNombre = document.getElementById("nombrefiscal");
-const sugerencias = document.getElementById("sugerencias");
-
-inputNombre.addEventListener("input", async () => {
-  const valor = inputNombre.value.trim().toLowerCase();
-  sugerencias.innerHTML = "";
-  sugerencias.style.display = "none";
-
-  if (valor.length < 2) return;
-
-  const { data, error } = await client
-    .from("clientes")
-    .select("nombrefiscal")
-    .ilike("nombrefiscal", `%${valor}%`)
-    .limit(5);
-
-  if (error || !data || data.length === 0) return;
-
-  data.forEach(cliente => {
-    const item = document.createElement("li");
-    item.textContent = cliente.nombrefiscal;
-    item.style.padding = "8px";
-    item.style.cursor = "pointer";
-    item.addEventListener("click", () => {
-      inputNombre.value = cliente.nombrefiscal;
-      sugerencias.innerHTML = "";
-      sugerencias.style.display = "none";
-      inputNombre.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
     });
-    sugerencias.appendChild(item);
-  });
 
-  sugerencias.style.display = "block";
-});
+    function seleccionarCliente(cliente) {
+      clienteSeleccionado = cliente;
+      busqueda.value = cliente.nombrefiscal;
+      nombrefiscal.value = cliente.nombrefiscal;
+      formulario.style.display = 'block';
+      sugerencias.innerHTML = '';
+    }
 
-// Ocultar sugerencias al perder foco
-inputNombre.addEventListener("blur", () => {
-  setTimeout(() => sugerencias.style.display = "none", 150);
-});
+    editarBtn.onclick = () => {
+      nombrefiscal.disabled = false;
+      guardarBtn.style.display = 'inline';
+      editarBtn.style.display = 'none';
+    }
 
+    guardarBtn.onclick = async () => {
+      const nuevoNombre = nombrefiscal.value.trim();
+      if (!clienteSeleccionado || !nuevoNombre) return;
 
-</script>
+      const { error } = await supabaseClient
+        .from('clientes')
+        .update({ nombrefiscal: nuevoNombre })
+        .eq('id', clienteSeleccionado.id);
+
+      if (!error) {
+        alert('Nombre actualizado');
+        editarBtn.style.display = 'inline';
+        guardarBtn.style.display = 'none';
+        nombrefiscal.disabled = true;
+      } else {
+        alert('Error al guardar');
+      }
+    }
+  </script>
 </body>
 </html>
