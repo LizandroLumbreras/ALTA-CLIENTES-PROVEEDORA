@@ -1,114 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clientes - Alta y Edición</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Cliente</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 40px;
-      min-height: 100vh;
-    }
-
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
-    }
-
-    h2 {
-      text-align: center;
-      color: #003366;
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-
-    #guardar {
-      width: 100%;
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    #guardar:hover {
-      background-color: #0056b3;
-    }
-
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    input, button { padding: 10px; margin: 5px 0; width: 100%; max-width: 400px; }
+    .campo { margin-bottom: 15px; }
     .sugerencias {
       background: white;
       border: 1px solid #ccc;
-      border-radius: 0 0 8px 8px;
-      max-height: 150px;
-      overflow-y: auto;
+      max-width: 400px;
       position: absolute;
-      width: 100%;
-      z-index: 5;
+      z-index: 1;
     }
-
     .sugerencias div {
-      padding: 10px;
+      padding: 8px;
       cursor: pointer;
     }
-
     .sugerencias div:hover {
-      background: #f0f0f0;
+      background: #e0e0e0;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Clientes - Alta y Edición</h2>
+  <h2>Editar Cliente</h2>
 
+  <div class="campo">
     <label for="busqueda">Buscar cliente:</label>
     <input type="text" id="busqueda" autocomplete="off">
     <div id="sugerencias" class="sugerencias"></div>
-
-    <label for="nombrefiscal">Nombre Fiscal:</label>
-    <input type="text" id="nombrefiscal">
-
-    <label for="rfc">RFC:</label>
-    <input type="text" id="rfc">
-
-    <label for="regimenfiscal">Régimen Fiscal:</label>
-    <input type="text" id="regimenfiscal">
-
-    <label for="direccion">Dirección:</label>
-    <input type="text" id="direccion">
-
-    <button id="guardar">💾 Guardar</button>
   </div>
+<div id="formulario" style="display:none">
+  <div class="campo">
+    <label for="nombrefiscal">Nombre Fiscal:</label>
+    <input type="text" id="nombrefiscal" disabled>
+  </div>
+
+  <div class="campo">
+    <label for="rfc">RFC:</label>
+    <input type="text" id="rfc" disabled>
+  </div>
+
+  <div class="campo">
+  <label for="regimenfiscal">Régimen Fiscal:</label>
+  <input type="text" id="regimenfiscal" disabled>
+</div>
+
+<div class="campo">
+  <label for="direccion">Dirección:</label>
+  <input type="text" id="direccion" disabled>
+</div>
+
+<div class="campo">
+  <label for="numero">Número:</label>
+  <input type="text" id="numero" disabled>
+</div>
+
+<div class="campo">
+  <label for="colonia">Colonia:</label>
+  <input type="text" id="colonia" disabled>
+</div>
+
+<div class="campo">
+  <label for="cp">Código Postal:</label>
+  <input type="text" id="cp" disabled>
+</div>
+
+<div class="campo">
+  <label for="municipio">Municipio:</label>
+  <input type="text" id="municipio" disabled>
+</div>
+
+<div class="campo">
+  <label for="ciudad">Ciudad:</label>
+  <input type="text" id="ciudad" disabled>
+</div>
+
+<div class="campo">
+  <label for="estado">Estado:</label>
+  <input type="text" id="estado" disabled>
+</div>
+
+<div class="campo">
+  <label for="pais">País:</label>
+  <input type="text" id="pais" disabled>
+</div>
+
+<div class="campo">
+  <label for="telefono">Teléfono:</label>
+  <input type="text" id="telefono" disabled>
+</div>
+
+<div class="campo">
+  <label for="whatsapp">WhatsApp:</label>
+  <input type="text" id="whatsapp" disabled>
+</div>
+
+<div class="campo">
+  <label for="email">Email:</label>
+  <input type="email" id="email" disabled>
+</div>
+
+<div class="campo">
+  <label for="cfdi">Uso de CFDI:</label>
+  <input type="text" id="cfdi" disabled>
+</div>
+
+<div class="campo">
+  <label for="metodopago">Método de Pago:</label>
+  <input type="text" id="metodopago" disabled>
+</div>
+
+<div class="campo">
+  <label for="formapago">Forma de Pago:</label>
+  <input type="text" id="formapago" disabled>
+</div>
+
+<div class="campo">
+  <label for="entrega">Entrega:</label>
+  <input type="text" id="entrega" disabled>
+</div>
+
+<div class="campo">
+  <label for="autorizado1">Autorizado 1:</label>
+  <input type="text" id="autorizado1" disabled>
+</div>
+
+<div class="campo">
+  <label for="autorizado2">Autorizado 2:</label>
+  <input type="text" id="autorizado2" disabled>
+</div>
+
+<div class="campo">
+  <label for="autorizado3">Autorizado 3:</label>
+  <input type="text" id="autorizado3" disabled>
+</div>
+
+<div class="campo">
+  <label for="comentarios">Comentarios:</label>
+  <input type="text" id="comentarios" disabled>
+</div>
+
+<div class="campo">
+  <label>
+    <input type="checkbox" id="mayoreo" disabled>
+    Cliente de Mayoreo
+  </label>
+</div>
+
+
+  <button id="editar">✏️ Editar</button>
+  <button id="guardar" style="display:none">💾 Guardar</button>
+</div>
+
 
   <script>
     const { createClient } = supabase;
@@ -119,109 +166,204 @@
 
     const busqueda = document.getElementById('busqueda');
     const sugerencias = document.getElementById('sugerencias');
+    const formulario = document.getElementById('formulario');
     const nombrefiscal = document.getElementById('nombrefiscal');
-    const rfc = document.getElementById('rfc');
-    const regimenfiscal = document.getElementById('regimenfiscal');
     const direccion = document.getElementById('direccion');
+    const numero = document.getElementById('numero');
+    const colonia = document.getElementById('colonia');
+    const cp = document.getElementById('cp');
+    const municipio = document.getElementById('municipio');
+    const ciudad = document.getElementById('ciudad');
+    const estado = document.getElementById('estado');
+    const pais = document.getElementById('pais');
+    const telefono = document.getElementById('telefono');
+    const whatsapp = document.getElementById('whatsapp');
+    const email = document.getElementById('email');
+    const cfdi = document.getElementById('cfdi');
+    const metodopago = document.getElementById('metodopago');
+    const formapago = document.getElementById('formapago');
+    const entrega = document.getElementById('entrega');
+    const autorizado1 = document.getElementById('autorizado1');
+    const autorizado2 = document.getElementById('autorizado2');
+    const autorizado3 = document.getElementById('autorizado3');
+    const comentarios = document.getElementById('comentarios');
+    const mayoreo = document.getElementById('mayoreo');
+    const editarBtn = document.getElementById('editar');
     const guardarBtn = document.getElementById('guardar');
+    
 
     let clienteSeleccionado = null;
 
     busqueda.addEventListener('input', async () => {
-      const texto = busqueda.value.trim();
-      if (texto.length < 2) {
-        sugerencias.innerHTML = '';
-        return;
-      }
+  const texto = busqueda.value.trim();
+  if (texto.length < 2) {
+    sugerencias.innerHTML = '';
+    return;
+  }
 
       const { data, error } = await supabaseClient
         .from('clientes')
-        .select('id, nombrefiscal, rfc, regimenfiscal, direccion')
+        .select('id, nombrefiscal, rfc, regimenfiscal, direccion, numero, colonia, cp, municipio, ciudad, estado, pais, telefono, whatsapp, email, cfdi, metodopago, formapago, entrega, autorizado1, autorizado2, autorizado3, comentarios, mayoreo')
         .ilike('nombrefiscal', `%${texto}%`)
         .limit(5);
 
       sugerencias.innerHTML = '';
-      if (data) {
-        data.forEach(c => {
-          const div = document.createElement('div');
-          div.textContent = c.nombrefiscal;
-          div.onclick = () => seleccionarCliente(c);
-          sugerencias.appendChild(div);
-        });
-      }
+  if (data) {
+    data.forEach(c => {
+      const div = document.createElement('div');
+      div.textContent = c.nombrefiscal;
+      div.onclick = () => seleccionarCliente(c);
+      sugerencias.appendChild(div);
     });
-
+  }
+});
     function seleccionarCliente(cliente) {
       clienteSeleccionado = cliente;
       busqueda.value = cliente.nombrefiscal;
       nombrefiscal.value = cliente.nombrefiscal;
-      rfc.value = cliente.rfc || '';
+      rfc.value = cliente.rfc;
       regimenfiscal.value = cliente.regimenfiscal || '';
       direccion.value = cliente.direccion || '';
+      numero.value = cliente.numero || '';
+      colonia.value = cliente.colonia || '';
+      cp.value = cliente.cp || '';
+      municipio.value = cliente.municipio || '';
+      ciudad.value = cliente.ciudad || '';
+      estado.value = cliente.estado || '';
+      pais.value = cliente.pais || '';
+      telefono.value = cliente.telefono || '';
+      whatsapp.value = cliente.whatsapp || '';
+      email.value = cliente.email || '';
+      cfdi.value = cliente.cfdi || '';
+      metodopago.value = cliente.metodopago || '';
+      formapago.value = cliente.formapago || '';
+      entrega.value = cliente.entrega || '';
+      autorizado1.value = cliente.autorizado1 || '';
+      autorizado2.value = cliente.autorizado2 || '';
+      autorizado3.value = cliente.autorizado3 || '';
+      comentarios.value = cliente.comentarios || '';
+      formulario.style.display = 'block';
       sugerencias.innerHTML = '';
     }
 
-    guardarBtn.onclick = async () => {
-      const nombre = nombrefiscal.value.trim();
-      const rfcValor = rfc.value.trim();
-      const regimenValor = regimenfiscal.value.trim();
-      const direccionValor = direccion.value.trim();
+editarBtn.onclick = () => {
+  nombrefiscal.disabled = false;
+  rfc.disabled = false; // <--- nuevo
+  regimenfiscal.disabled = false;
+  direccion.disabled = false;
+  numero.disabled = false;
+  colonia.disabled = false;
+  cp.disabled = false;
+  municipio.disabled = false;
+  ciudad.disabled = false;
+  estado.disabled = false;
+  pais.disabled = false;
+  telefono.disabled = false;
+  whatsapp.disabled = false;
+  email.disabled = false;
+  cfdi.disabled = false;
+  metodopago.disabled = false;
+  formapago.disabled = false;
+  entrega.disabled = false;
+  autorizado1.disabled = false;
+  autorizado2.disabled = false;
+  autorizado3.disabled = false;
+  comentarios.disabled = false;
+  mayoreo.disabled = false;
+  guardarBtn.style.display = 'inline';
+  editarBtn.style.display = 'none';
+}
 
-      if (!nombre) {
-        alert('El nombre fiscal es obligatorio.');
-        return;
-      }
 
-      if (clienteSeleccionado) {
-        const { error } = await supabaseClient
-          .from('clientes')
-          .update({
-            nombrefiscal: nombre,
-            rfc: rfcValor,
-            regimenfiscal: regimenValor,
-            direccion: direccionValor
-          })
-          .eq('id', clienteSeleccionado.id);
+guardarBtn.onclick = async () => {
+  const nuevoNombre = nombrefiscal.value.trim();
+const nuevoRfc = rfc.value.trim();
+const nuevoRegimen = regimenfiscal.value.trim();
+const nuevaDireccion = direccion.value.trim();
+const nuevoNumero = numero.value.trim();
+const nuevaColonia = colonia.value.trim();
+const nuevoCp = cp.value.trim();
+const nuevoMunicipio = municipio.value.trim();
+const nuevaCiudad = ciudad.value.trim();
+const nuevoEstado = estado.value.trim();
+const nuevoPais = pais.value.trim();
+const nuevoTelefono = telefono.value.trim();
+const nuevoWhatsapp = whatsapp.value.trim();
+const nuevoEmail = email.value.trim();
+const nuevoCfdi = cfdi.value.trim();
+const nuevoMetodoPago = metodopago.value.trim();
+const nuevaFormaPago = formapago.value.trim();
+const nuevaEntrega = entrega.value.trim();
+const nuevoAutorizado1 = autorizado1.value.trim();
+const nuevoAutorizado2 = autorizado2.value.trim();
+const nuevoAutorizado3 = autorizado3.value.trim();
+const nuevosComentarios = comentarios.value.trim();
+const nuevoMayoreo = mayoreo.checked;
 
-        if (!error) {
-          alert('Cliente actualizado correctamente');
-        } else {
-          alert('Error al actualizar: ' + error.message);
-        }
-      } else {
-        const { error } = await supabaseClient
-          .from('clientes')
-          .insert([{
-            nombrefiscal: nombre,
-            rfc: rfcValor,
-            regimenfiscal: regimenValor,
-            direccion: direccionValor
-          }]);
 
-        if (!error) {
-          alert('Cliente registrado exitosamente');
-          limpiarFormulario();
-        } else {
-          console.log("Error al registrar cliente:", error);
-          alert('Error al registrar: ' + (error.message || 'Ver consola'));
-        }
-      }
-    };
+const { error } = await supabaseClient
+  .from('clientes')
+  .update({ 
+    nombrefiscal: nuevoNombre,
+    rfc: nuevoRfc,
+    regimenfiscal: nuevoRegimen,
+    direccion: nuevaDireccion,
+    numero: nuevoNumero,
+    colonia: nuevaColonia,
+    cp: nuevoCp,
+    municipio: nuevoMunicipio,
+    ciudad: nuevaCiudad,
+    estado: nuevoEstado,
+    pais: nuevoPais,
+    telefono: nuevoTelefono,
+    whatsapp: nuevoWhatsapp,
+    email: nuevoEmail,
+    cfdi: nuevoCfdi,
+    metodopago: nuevoMetodoPago,
+    formapago: nuevaFormaPago,
+    entrega: nuevaEntrega,
+    autorizado1: nuevoAutorizado1,
+    autorizado2: nuevoAutorizado2,
+    autorizado3: nuevoAutorizado3,
+    comentarios: nuevosComentarios,
+    mayoreo: nuevoMayoreo,
 
-    function limpiarFormulario() {
-      clienteSeleccionado = null;
-      busqueda.value = '';
-      nombrefiscal.value = '';
-      rfc.value = '';
-      regimenfiscal.value = '';
-      direccion.value = '';
-    }
+    
+  })
+  .eq('id', clienteSeleccionado.id);
 
-    document.addEventListener('click', function (e) {
-      if (!sugerencias.contains(e.target) && e.target !== busqueda) {
-        sugerencias.innerHTML = '';
-      }
-    });
+  if (!error) {
+    alert('Datos actualizados');
+    editarBtn.style.display = 'inline';
+    guardarBtn.style.display = 'none';
+    nombrefiscal.disabled = true;
+    rfc.disabled = true;
+    regimenfiscal.disabled = true;
+    direccion.disabled = true;
+    numero.disabled = true;
+    colonia.disabled = true;
+    cp.disabled = true;
+    municipio.disabled = true;
+    ciudad.disabled = true;
+    estado.disabled = true;
+    pais.disabled = true;
+    telefono.disabled = true;
+    whatsapp.disabled = true;
+    email.disabled = true;
+    cfdi.disabled = true;
+    metodopago.disabled = true;
+    formapago.disabled = true;
+    entrega.disabled = true;
+    autorizado1.disabled = true;
+    autorizado2.disabled = true;
+    autorizado3.disabled = true;
+    comentarios.disabled = true;
+    mayoreo.disabled = true;
+  } else {
+    alert('Error al guardar');
+  }
+}
+
   </script>
 </body>
 </html>
