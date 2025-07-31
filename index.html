@@ -307,9 +307,10 @@ const { error } = await supabaseClient
     autorizado3.disabled = true;
     comentarios.disabled = true;
     mayoreo.disabled = true;
-  } else {
-    alert('Error al guardar');
-  }
+ } else {
+  console.error("❌ Error al guardar:", error);
+  alert('Error al guardar el cliente: ' + error.message);
+}
 }
  document.getElementById('nuevoClienteBtn').onclick = () => {
   document.getElementById('formularioNuevo').reset();
