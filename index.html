@@ -23,6 +23,10 @@
     .sugerencias div:hover {
       background: #e0e0e0;
     }
+    input:enabled {
+      background-color: #ffffe0;
+      border: 1px solid #999;
+    }
   </style>
 </head>
 <body>
@@ -34,154 +38,37 @@
     <div id="sugerencias" class="sugerencias"></div>
   </div>
   <button id="nuevoClienteBtn">➕ Nuevo Cliente</button>
-<div id="formulario" style="display:none">
-  <div class="campo">
-    <label for="nombrefiscal">Nombre Fiscal:</label>
-    <input type="text" id="nombrefiscal" disabled>
+
+  <div id="formulario" style="display:none">
+    <div class="campo"><label for="nombrefiscal">Nombre Fiscal:</label><input type="text" id="nombrefiscal" disabled></div>
+    <div class="campo"><label for="rfc">RFC:</label><input type="text" id="rfc" disabled></div>
+    <div class="campo"><label for="regimenfiscal">Régimen Fiscal:</label><input type="text" id="regimenfiscal" disabled></div>
+    <div class="campo"><label for="direccion">Dirección:</label><input type="text" id="direccion" disabled></div>
+    <div class="campo"><label for="numero">Número:</label><input type="text" id="numero" disabled></div>
+    <div class="campo"><label for="colonia">Colonia:</label><input type="text" id="colonia" disabled></div>
+    <div class="campo"><label for="cp">Código Postal:</label><input type="text" id="cp" disabled></div>
+    <div class="campo"><label for="municipio">Municipio:</label><input type="text" id="municipio" disabled></div>
+    <div class="campo"><label for="ciudad">Ciudad:</label><input type="text" id="ciudad" disabled></div>
+    <div class="campo"><label for="estado">Estado:</label><input type="text" id="estado" disabled></div>
+    <div class="campo"><label for="pais">País:</label><input type="text" id="pais" disabled></div>
+    <div class="campo"><label for="telefono">Teléfono:</label><input type="text" id="telefono" disabled></div>
+    <div class="campo"><label for="whatsapp">WhatsApp:</label><input type="text" id="whatsapp" disabled></div>
+    <div class="campo"><label for="email">Email:</label><input type="email" id="email" disabled></div>
+    <div class="campo"><label for="cfdi">Uso de CFDI:</label><input type="text" id="cfdi" disabled></div>
+    <div class="campo"><label for="metodopago">Método de Pago:</label><input type="text" id="metodopago" disabled></div>
+    <div class="campo"><label for="formapago">Forma de Pago:</label><input type="text" id="formapago" disabled></div>
+    <div class="campo"><label for="entrega">Entrega:</label><input type="text" id="entrega" disabled></div>
+    <div class="campo"><label for="autorizado1">Autorizado 1:</label><input type="text" id="autorizado1" disabled></div>
+    <div class="campo"><label for="autorizado2">Autorizado 2:</label><input type="text" id="autorizado2" disabled></div>
+    <div class="campo"><label for="autorizado3">Autorizado 3:</label><input type="text" id="autorizado3" disabled></div>
+    <div class="campo"><label for="comentarios">Comentarios:</label><input type="text" id="comentarios" disabled></div>
+    <div class="campo"><label><input type="checkbox" id="mayoreo" disabled> Cliente de Mayoreo</label></div>
+
+    <div class="campo">
+      <button id="editar">✏️ Editar</button>
+      <button id="guardar" style="display: none;">💾 Guardar Cambios</button>
+    </div>
   </div>
-
-  <div class="campo">
-    <label for="rfc">RFC:</label>
-    <input type="text" id="rfc" disabled>
-  </div>
-
-  <div class="campo">
-  <label for="regimenfiscal">Régimen Fiscal:</label>
-  <input type="text" id="regimenfiscal" disabled>
-</div>
-
-<div class="campo">
-  <label for="direccion">Dirección:</label>
-  <input type="text" id="direccion" disabled>
-</div>
-
-<div class="campo">
-  <label for="numero">Número:</label>
-  <input type="text" id="numero" disabled>
-</div>
-
-<div class="campo">
-  <label for="colonia">Colonia:</label>
-  <input type="text" id="colonia" disabled>
-</div>
-
-<div class="campo">
-  <label for="cp">Código Postal:</label>
-  <input type="text" id="cp" disabled>
-</div>
-
-<div class="campo">
-  <label for="municipio">Municipio:</label>
-  <input type="text" id="municipio" disabled>
-</div>
-
-<div class="campo">
-  <label for="ciudad">Ciudad:</label>
-  <input type="text" id="ciudad" disabled>
-</div>
-
-<div class="campo">
-  <label for="estado">Estado:</label>
-  <input type="text" id="estado" disabled>
-</div>
-
-<div class="campo">
-  <label for="pais">País:</label>
-  <input type="text" id="pais" disabled>
-</div>
-
-<div class="campo">
-  <label for="telefono">Teléfono:</label>
-  <input type="text" id="telefono" disabled>
-</div>
-
-<div class="campo">
-  <label for="whatsapp">WhatsApp:</label>
-  <input type="text" id="whatsapp" disabled>
-</div>
-
-<div class="campo">
-  <label for="email">Email:</label>
-  <input type="email" id="email" disabled>
-</div>
-
-<div class="campo">
-  <label for="cfdi">Uso de CFDI:</label>
-  <input type="text" id="cfdi" disabled>
-</div>
-
-<div class="campo">
-  <label for="metodopago">Método de Pago:</label>
-  <input type="text" id="metodopago" disabled>
-</div>
-
-<div class="campo">
-  <label for="formapago">Forma de Pago:</label>
-  <input type="text" id="formapago" disabled>
-</div>
-
-<div class="campo">
-  <label for="entrega">Entrega:</label>
-  <input type="text" id="entrega" disabled>
-</div>
-
-<div class="campo">
-  <label for="autorizado1">Autorizado 1:</label>
-  <input type="text" id="autorizado1" disabled>
-</div>
-
-<div class="campo">
-  <label for="autorizado2">Autorizado 2:</label>
-  <input type="text" id="autorizado2" disabled>
-</div>
-
-<div class="campo">
-  <label for="autorizado3">Autorizado 3:</label>
-  <input type="text" id="autorizado3" disabled>
-</div>
-
-<div class="campo">
-  <label for="comentarios">Comentarios:</label>
-  <input type="text" id="comentarios" disabled>
-</div>
-
-<div class="campo">
-  <label>
-    <input type="checkbox" id="mayoreo" disabled>
-    Cliente de Mayoreo
-  </label>
-</div>
-<form id="formularioNuevo" style="display:none">
-  <h3>Agregar Nuevo Cliente</h3>
-
-  <div class="campo"><input type="text" id="nuevo_nombrefiscal" placeholder="Nombre Fiscal" required></div>
-  <div class="campo"><input type="text" id="nuevo_rfc" placeholder="RFC" required></div>
-  <div class="campo"><input type="text" id="nuevo_regimenfiscal" placeholder="Régimen Fiscal"></div>
-  <div class="campo"><input type="text" id="nuevo_direccion" placeholder="Dirección"></div>
-  <div class="campo"><input type="text" id="nuevo_numero" placeholder="Número"></div>
-  <div class="campo"><input type="text" id="nuevo_colonia" placeholder="Colonia"></div>
-  <div class="campo"><input type="text" id="nuevo_cp" placeholder="Código Postal"></div>
-  <div class="campo"><input type="text" id="nuevo_municipio" placeholder="Municipio"></div>
-  <div class="campo"><input type="text" id="nuevo_ciudad" placeholder="Ciudad"></div>
-  <div class="campo"><input type="text" id="nuevo_estado" placeholder="Estado"></div>
-  <div class="campo"><input type="text" id="nuevo_pais" placeholder="País"></div>
-  <div class="campo"><input type="text" id="nuevo_telefono" placeholder="Teléfono"></div>
-  <div class="campo"><input type="text" id="nuevo_whatsapp" placeholder="WhatsApp"></div>
-  <div class="campo"><input type="email" id="nuevo_email" placeholder="Email"></div>
-  <div class="campo"><input type="text" id="nuevo_cfdi" placeholder="Uso de CFDI"></div>
-  <div class="campo"><input type="text" id="nuevo_metodopago" placeholder="Método de Pago"></div>
-  <div class="campo"><input type="text" id="nuevo_formapago" placeholder="Forma de Pago"></div>
-  <div class="campo"><input type="text" id="nuevo_entrega" placeholder="Entrega"></div>
-  <div class="campo"><input type="text" id="nuevo_autorizado1" placeholder="Autorizado 1"></div>
-  <div class="campo"><input type="text" id="nuevo_autorizado2" placeholder="Autorizado 2"></div>
-  <div class="campo"><input type="text" id="nuevo_autorizado3" placeholder="Autorizado 3"></div>
-  <div class="campo"><input type="text" id="nuevo_comentarios" placeholder="Comentarios"></div>
-  <div class="campo">
-    <label><input type="checkbox" id="nuevo_mayoreo"> Cliente de Mayoreo</label>
-  </div>
-
-  <button type="submit">💾 Guardar Cliente</button>
-</form>
 
   <script>
     const { createClient } = supabase;
