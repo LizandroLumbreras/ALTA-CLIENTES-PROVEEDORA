@@ -33,6 +33,7 @@
     <input type="text" id="busqueda" autocomplete="off">
     <div id="sugerencias" class="sugerencias"></div>
   </div>
+  <button id="nuevoClienteBtn">➕ Nuevo Cliente</button>
 <div id="formulario" style="display:none">
   <div class="campo">
     <label for="nombrefiscal">Nombre Fiscal:</label>
@@ -150,12 +151,37 @@
     Cliente de Mayoreo
   </label>
 </div>
+<form id="formularioNuevo" style="display:none">
+  <h3>Agregar Nuevo Cliente</h3>
 
+  <div class="campo"><input type="text" id="nuevo_nombrefiscal" placeholder="Nombre Fiscal" required></div>
+  <div class="campo"><input type="text" id="nuevo_rfc" placeholder="RFC" required></div>
+  <div class="campo"><input type="text" id="nuevo_regimenfiscal" placeholder="Régimen Fiscal"></div>
+  <div class="campo"><input type="text" id="nuevo_direccion" placeholder="Dirección"></div>
+  <div class="campo"><input type="text" id="nuevo_numero" placeholder="Número"></div>
+  <div class="campo"><input type="text" id="nuevo_colonia" placeholder="Colonia"></div>
+  <div class="campo"><input type="text" id="nuevo_cp" placeholder="Código Postal"></div>
+  <div class="campo"><input type="text" id="nuevo_municipio" placeholder="Municipio"></div>
+  <div class="campo"><input type="text" id="nuevo_ciudad" placeholder="Ciudad"></div>
+  <div class="campo"><input type="text" id="nuevo_estado" placeholder="Estado"></div>
+  <div class="campo"><input type="text" id="nuevo_pais" placeholder="País"></div>
+  <div class="campo"><input type="text" id="nuevo_telefono" placeholder="Teléfono"></div>
+  <div class="campo"><input type="text" id="nuevo_whatsapp" placeholder="WhatsApp"></div>
+  <div class="campo"><input type="email" id="nuevo_email" placeholder="Email"></div>
+  <div class="campo"><input type="text" id="nuevo_cfdi" placeholder="Uso de CFDI"></div>
+  <div class="campo"><input type="text" id="nuevo_metodopago" placeholder="Método de Pago"></div>
+  <div class="campo"><input type="text" id="nuevo_formapago" placeholder="Forma de Pago"></div>
+  <div class="campo"><input type="text" id="nuevo_entrega" placeholder="Entrega"></div>
+  <div class="campo"><input type="text" id="nuevo_autorizado1" placeholder="Autorizado 1"></div>
+  <div class="campo"><input type="text" id="nuevo_autorizado2" placeholder="Autorizado 2"></div>
+  <div class="campo"><input type="text" id="nuevo_autorizado3" placeholder="Autorizado 3"></div>
+  <div class="campo"><input type="text" id="nuevo_comentarios" placeholder="Comentarios"></div>
+  <div class="campo">
+    <label><input type="checkbox" id="nuevo_mayoreo"> Cliente de Mayoreo</label>
+  </div>
 
-  <button id="editar">✏️ Editar</button>
-  <button id="guardar" style="display:none">💾 Guardar</button>
-</div>
-
+  <button type="submit">💾 Guardar Cliente</button>
+</form>
 
   <script>
     const { createClient } = supabase;
@@ -165,6 +191,8 @@
     );
 
     const busqueda = document.getElementById('busqueda');
+    const rfc = document.getElementById('rfc');
+const regimenfiscal = document.getElementById('regimenfiscal');
     const sugerencias = document.getElementById('sugerencias');
     const formulario = document.getElementById('formulario');
     const nombrefiscal = document.getElementById('nombrefiscal');
@@ -205,6 +233,7 @@
         .from('clientes')
         .select('id, nombrefiscal, rfc, regimenfiscal, direccion, numero, colonia, cp, municipio, ciudad, estado, pais, telefono, whatsapp, email, cfdi, metodopago, formapago, entrega, autorizado1, autorizado2, autorizado3, comentarios, mayoreo')
         .ilike('nombrefiscal', `%${texto}%`)
+        .order('nombrefiscal', { ascending: true }) // 👈 agrega esto
         .limit(5);
 
       sugerencias.innerHTML = '';
@@ -242,10 +271,13 @@
       autorizado2.value = cliente.autorizado2 || '';
       autorizado3.value = cliente.autorizado3 || '';
       comentarios.value = cliente.comentarios || '';
-      formulario.style.display = 'block';
-      sugerencias.innerHTML = '';
-    }
+       mayoreo.checked = !!cliente.mayoreo; // <<--- importante
 
+  // Mostrar/ocultar
+  document.getElementById('formularioNuevo').style.display = 'none';
+  formulario.style.display = 'block';
+  sugerencias.innerHTML = '';
+}
 editarBtn.onclick = () => {
   nombrefiscal.disabled = false;
   rfc.disabled = false; // <--- nuevo
@@ -363,7 +395,82 @@ const { error } = await supabaseClient
     alert('Error al guardar');
   }
 }
+ document.getElementById('nuevoClienteBtn').onclick = () => {
+  document.getElementById('formularioNuevo').reset();
+  document.getElementById('formularioNuevo').style.display = 'block';
+  formulario.style.display = 'none';
+  busqueda.value = '';
+  sugerencias.innerHTML = '';
+};
+document.getElementById('formularioNuevo').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await guardarNuevoCliente();
+});
 
+async function guardarNuevoCliente() {
+  const nombre = document.getElementById('nuevo_nombrefiscal').value.trim();
+  let rfcNuevo = document.getElementById('nuevo_rfc').value.trim();
+
+  if (!nombre) {
+    alert('El Nombre Fiscal es obligatorio');
+    return;
+  }
+  if (!rfcNuevo) {
+    alert('El RFC es obligatorio');
+    return;
+  }
+  if (!/^[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}$/.test(rfcNuevo)) {
+  alert('El RFC no tiene un formato válido.');
+  return;
+}
+  rfcNuevo = rfcNuevo.toUpperCase();
+
+  const nuevoCliente = {
+    nombrefiscal: nombre,
+    rfc: rfcNuevo,
+    regimenfiscal: document.getElementById('nuevo_regimenfiscal').value.trim(),
+    direccion: document.getElementById('nuevo_direccion').value.trim(),
+    numero: document.getElementById('nuevo_numero').value.trim(),
+    colonia: document.getElementById('nuevo_colonia').value.trim(),
+    cp: document.getElementById('nuevo_cp').value.trim(),
+    municipio: document.getElementById('nuevo_municipio').value.trim(),
+    ciudad: document.getElementById('nuevo_ciudad').value.trim(),
+    estado: document.getElementById('nuevo_estado').value.trim(),
+    pais: document.getElementById('nuevo_pais').value.trim(),
+    telefono: document.getElementById('nuevo_telefono').value.trim(),
+    whatsapp: document.getElementById('nuevo_whatsapp').value.trim(),
+    email: document.getElementById('nuevo_email').value.trim(),
+    cfdi: document.getElementById('nuevo_cfdi').value.trim(),
+    metodopago: document.getElementById('nuevo_metodopago').value.trim(),
+    formapago: document.getElementById('nuevo_formapago').value.trim(),
+    entrega: document.getElementById('nuevo_entrega').value.trim(),
+    autorizado1: document.getElementById('nuevo_autorizado1').value.trim(),
+    autorizado2: document.getElementById('nuevo_autorizado2').value.trim(),
+    autorizado3: document.getElementById('nuevo_autorizado3').value.trim(),
+    comentarios: document.getElementById('nuevo_comentarios').value.trim(),
+    mayoreo: document.getElementById('nuevo_mayoreo').checked
+  };
+
+  // Inserta y regresa el registro creado
+  const { data: insertado, error } = await supabaseClient
+    .from('clientes')
+    .insert(nuevoCliente)
+    .select('*')
+    .single();
+
+  if (!error) {
+    alert('Cliente agregado correctamente');
+    // Auto-seleccionar para seguir trabajando
+    seleccionarCliente(insertado);
+    document.getElementById('formularioNuevo').reset();
+document.getElementById('formularioNuevo').style.display = 'none';
+document.getElementById('formulario').style.display = 'block';
+
+  } else {
+    console.error(error);
+    alert('Error al guardar el cliente');
+  }
+}
   </script>
 </body>
 </html>
