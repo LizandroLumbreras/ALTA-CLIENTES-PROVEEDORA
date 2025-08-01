@@ -185,35 +185,38 @@
     <button type="submit">💾 Guardar Nuevo Cliente</button>
   </div>
 </form>
-  <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
-  <!-- Cliente principal -->
-  <div>
-    <div style="text-align:center;">Cliente</div>
+ <!-- Recuadros de fotos y botones para tomar imagen -->
+<div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 30px;">
+  <!-- Cliente -->
+  <div style="text-align: center;">
+    <div>Cliente</div>
     <img id="fotoCliente" src="" alt="Foto Cliente" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
-    <button onclick="tomarFoto('fotoCliente')" style="margin-top: 8px;">📸 Tomar Foto</button>
+    <button type="button" onclick="tomarFoto('fotoCliente')" style="margin-top: 8px;">📸 Tomar Foto</button>
   </div>
 
   <!-- Autorizado 1 -->
-  <div>
-    <div style="text-align:center;">Autorizado 1</div>
+  <div style="text-align: center;">
+    <div>Autorizado 1</div>
     <img id="fotoAutorizado1" src="" alt="Foto Autorizado 1" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
-    <button onclick="tomarFoto('fotoAutorizado1')" style="margin-top: 8px;">📸 Tomar Foto</button>
+    <button type="button" onclick="tomarFoto('fotoAutorizado1')" style="margin-top: 8px;">📸 Tomar Foto</button>
   </div>
 
   <!-- Autorizado 2 -->
-  <div>
-    <div style="text-align:center;">Autorizado 2</div>
+  <div style="text-align: center;">
+    <div>Autorizado 2</div>
     <img id="fotoAutorizado2" src="" alt="Foto Autorizado 2" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
-    <button onclick="tomarFoto('fotoAutorizado2')" style="margin-top: 8px;">📸 Tomar Foto</button>
+    <button type="button" onclick="tomarFoto('fotoAutorizado2')" style="margin-top: 8px;">📸 Tomar Foto</button>
   </div>
 
   <!-- Autorizado 3 -->
-  <div>
-    <div style="text-align:center;">Autorizado 3</div>
+  <div style="text-align: center;">
+    <div>Autorizado 3</div>
     <img id="fotoAutorizado3" src="" alt="Foto Autorizado 3" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
-    <button onclick="tomarFoto('fotoAutorizado3')" style="margin-top: 8px;">📸 Tomar Foto</button>
+    <button type="button" onclick="tomarFoto('fotoAutorizado3')" style="margin-top: 8px;">📸 Tomar Foto</button>
   </div>
 </div>
+
+<!-- Input oculto para activar cámara -->
 <input type="file" accept="image/*" capture="environment" id="inputFoto" style="display:none" />
 
   <script>
@@ -305,6 +308,12 @@ const regimenfiscal = document.getElementById('regimenfiscal');
       autorizado3.value = cliente.autorizado3 || '';
       comentarios.value = cliente.comentarios || '';
        mayoreo.checked = !!cliente.mayoreo; // <<--- importante
+     
+      document.getElementById("fotoCliente").src = cliente.foto_url || "";
+document.getElementById("fotoAutorizado1").src = cliente.autorizado1_url || "";
+document.getElementById("fotoAutorizado2").src = cliente.autorizado2_url || "";
+document.getElementById("fotoAutorizado3").src = cliente.autorizado3_url || "";
+
 
   // Mostrar/ocultar
   document.getElementById('formularioNuevo').style.display = 'none';
@@ -341,106 +350,90 @@ editarBtn.onclick = () => {
 
 
 guardarBtn.onclick = async () => {
+  if (!clienteSeleccionado) return;
+
+  const id = clienteSeleccionado.id;
+
   const nuevoNombre = nombrefiscal.value.trim();
-const nuevoRfc = rfc.value.trim();
-const nuevoRegimen = regimenfiscal.value.trim();
-const nuevaDireccion = direccion.value.trim();
-const nuevoNumero = numero.value.trim();
-const nuevaColonia = colonia.value.trim();
-const nuevoCp = cp.value.trim();
-const nuevoMunicipio = municipio.value.trim();
-const nuevaCiudad = ciudad.value.trim();
-const nuevoEstado = estado.value.trim();
-const nuevoPais = pais.value.trim();
-const nuevoTelefono = telefono.value.trim();
-const nuevoWhatsapp = whatsapp.value.trim();
-const nuevoEmail = email.value.trim();
-const nuevoCfdi = cfdi.value.trim();
-const nuevoMetodoPago = metodopago.value.trim();
-const nuevaFormaPago = formapago.value.trim();
-const nuevaEntrega = entrega.value.trim();
-const nuevoAutorizado1 = autorizado1.value.trim();
-const nuevoAutorizado2 = autorizado2.value.trim();
-const nuevoAutorizado3 = autorizado3.value.trim();
-const nuevosComentarios = comentarios.value.trim();
-const nuevoMayoreo = mayoreo.checked;
+  const nuevoRfc = rfc.value.trim();
+  const nuevoRegimen = regimenfiscal.value.trim();
+  const nuevaDireccion = direccion.value.trim();
+  const nuevoNumero = numero.value.trim();
+  const nuevaColonia = colonia.value.trim();
+  const nuevoCp = cp.value.trim();
+  const nuevoMunicipio = municipio.value.trim();
+  const nuevaCiudad = ciudad.value.trim();
+  const nuevoEstado = estado.value.trim();
+  const nuevoPais = pais.value.trim();
+  const nuevoTelefono = telefono.value.trim();
+  const nuevoWhatsapp = whatsapp.value.trim();
+  const nuevoEmail = email.value.trim();
+  const nuevoCfdi = cfdi.value.trim();
+  const nuevoMetodoPago = metodopago.value.trim();
+  const nuevaFormaPago = formapago.value.trim();
+  const nuevaEntrega = entrega.value.trim();
+  const nuevoAutorizado1 = autorizado1.value.trim();
+  const nuevoAutorizado2 = autorizado2.value.trim();
+  const nuevoAutorizado3 = autorizado3.value.trim();
+  const nuevosComentarios = comentarios.value.trim();
+  const nuevoMayoreo = mayoreo.checked;
 
+  // Obtener imágenes actuales
+  const fotoCliente = document.getElementById("fotoCliente").src;
+  const foto1 = document.getElementById("fotoAutorizado1").src;
+  const foto2 = document.getElementById("fotoAutorizado2").src;
+  const foto3 = document.getElementById("fotoAutorizado3").src;
 
-const { error } = await supabaseClient
-  .from('clientes')
-  .update({ 
-    nombrefiscal: nuevoNombre,
-    rfc: nuevoRfc,
-    regimenfiscal: nuevoRegimen,
-    direccion: nuevaDireccion,
-    numero: nuevoNumero,
-    colonia: nuevaColonia,
-    cp: nuevoCp,
-    municipio: nuevoMunicipio,
-    ciudad: nuevaCiudad,
-    estado: nuevoEstado,
-    pais: nuevoPais,
-    telefono: nuevoTelefono,
-    whatsapp: nuevoWhatsapp,
-    email: nuevoEmail,
-    cfdi: nuevoCfdi,
-    metodopago: nuevoMetodoPago,
-    formapago: nuevaFormaPago,
-    entrega: nuevaEntrega,
-    autorizado1: nuevoAutorizado1,
-    autorizado2: nuevoAutorizado2,
-    autorizado3: nuevoAutorizado3,
-    comentarios: nuevosComentarios,
-    mayoreo: nuevoMayoreo,
+  // Subir solo si son nuevas fotos base64
+  const urlCliente = fotoCliente.startsWith('data:') ? await subirFotoABucket(fotoCliente, `clientes/${id}/cliente.jpg`) : clienteSeleccionado.foto_url;
+  const url1 = foto1.startsWith('data:') ? await subirFotoABucket(foto1, `clientes/${id}/autorizado1.jpg`) : clienteSeleccionado.autorizado1_url;
+  const url2 = foto2.startsWith('data:') ? await subirFotoABucket(foto2, `clientes/${id}/autorizado2.jpg`) : clienteSeleccionado.autorizado2_url;
+  const url3 = foto3.startsWith('data:') ? await subirFotoABucket(foto3, `clientes/${id}/autorizado3.jpg`) : clienteSeleccionado.autorizado3_url;
 
-    
-  })
-  .eq('id', clienteSeleccionado.id);
+  const { error } = await supabaseClient
+    .from('clientes')
+    .update({
+      nombrefiscal: nuevoNombre,
+      rfc: nuevoRfc,
+      regimenfiscal: nuevoRegimen,
+      direccion: nuevaDireccion,
+      numero: nuevoNumero,
+      colonia: nuevaColonia,
+      cp: nuevoCp,
+      municipio: nuevoMunicipio,
+      ciudad: nuevaCiudad,
+      estado: nuevoEstado,
+      pais: nuevoPais,
+      telefono: nuevoTelefono,
+      whatsapp: nuevoWhatsapp,
+      email: nuevoEmail,
+      cfdi: nuevoCfdi,
+      metodopago: nuevoMetodoPago,
+      formapago: nuevaFormaPago,
+      entrega: nuevaEntrega,
+      autorizado1: nuevoAutorizado1,
+      autorizado2: nuevoAutorizado2,
+      autorizado3: nuevoAutorizado3,
+      comentarios: nuevosComentarios,
+      mayoreo: nuevoMayoreo,
+      foto_url: urlCliente,
+      autorizado1_url: url1,
+      autorizado2_url: url2,
+      autorizado3_url: url3
+    })
+    .eq('id', id);
 
   if (!error) {
-    alert('Datos actualizados');
+    alert('✅ Cliente actualizado');
     editarBtn.style.display = 'inline';
     guardarBtn.style.display = 'none';
-    nombrefiscal.disabled = true;
-    rfc.disabled = true;
-    regimenfiscal.disabled = true;
-    direccion.disabled = true;
-    numero.disabled = true;
-    colonia.disabled = true;
-    cp.disabled = true;
-    municipio.disabled = true;
-    ciudad.disabled = true;
-    estado.disabled = true;
-    pais.disabled = true;
-    telefono.disabled = true;
-    whatsapp.disabled = true;
-    email.disabled = true;
-    cfdi.disabled = true;
-    metodopago.disabled = true;
-    formapago.disabled = true;
-    entrega.disabled = true;
-    autorizado1.disabled = true;
-    autorizado2.disabled = true;
-    autorizado3.disabled = true;
-    comentarios.disabled = true;
-    mayoreo.disabled = true;
- } else {
-  console.error("❌ Error al guardar:", error);
-  alert('Error al guardar el cliente: ' + error.message);
-}
-}
- document.getElementById('nuevoClienteBtn').onclick = () => {
-  document.getElementById('formularioNuevo').reset();
-  document.getElementById('formularioNuevo').style.display = 'block';
-  formulario.style.display = 'none';
-  busqueda.value = '';
-  sugerencias.innerHTML = '';
+    // Re-bloquear campos
+    [...document.querySelectorAll("#formulario input")].forEach(i => i.disabled = true);
+  } else {
+    console.error("❌ Error al guardar:", error);
+    alert('Error al guardar el cliente: ' + error.message);
+  }
 };
-document.getElementById('formularioNuevo').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  await guardarNuevoCliente();
-});
-
 async function guardarNuevoCliente() {
   const nombre = document.getElementById('nuevo_nombrefiscal').value.trim();
   let rfcNuevo = document.getElementById('nuevo_rfc').value.trim();
@@ -486,24 +479,70 @@ async function guardarNuevoCliente() {
   };
 
   // Inserta y regresa el registro creado
-  const { data: insertado, error } = await supabaseClient
+const { data: insertado, error } = await supabaseClient
+  .from('clientes')
+  .insert(nuevoCliente)
+  .select('*')
+  .single();
+
+if (!error && insertado) {
+  const id = insertado.id;
+
+  // Obtener imágenes base64
+  const fotoCliente = document.getElementById("fotoCliente").src;
+  const foto1 = document.getElementById("fotoAutorizado1").src;
+  const foto2 = document.getElementById("fotoAutorizado2").src;
+  const foto3 = document.getElementById("fotoAutorizado3").src;
+
+  // Subir si son base64 válidas
+  const urlCliente = fotoCliente.startsWith('data:') ? await subirFotoABucket(fotoCliente, `clientes/${id}/cliente.jpg`) : null;
+  const url1 = foto1.startsWith('data:') ? await subirFotoABucket(foto1, `clientes/${id}/autorizado1.jpg`) : null;
+  const url2 = foto2.startsWith('data:') ? await subirFotoABucket(foto2, `clientes/${id}/autorizado2.jpg`) : null;
+  const url3 = foto3.startsWith('data:') ? await subirFotoABucket(foto3, `clientes/${id}/autorizado3.jpg`) : null;
+
+  // Guardar las URLs en la tabla
+  await supabaseClient
     .from('clientes')
-    .insert(nuevoCliente)
-    .select('*')
-    .single();
+    .update({
+      foto_url: urlCliente,
+      autorizado1_url: url1,
+      autorizado2_url: url2,
+      autorizado3_url: url3
+    })
+    .eq('id', id);
 
-  if (!error) {
-    alert('Cliente agregado correctamente');
-    // Auto-seleccionar para seguir trabajando
-    seleccionarCliente(insertado);
-    document.getElementById('formularioNuevo').reset();
-document.getElementById('formularioNuevo').style.display = 'none';
-document.getElementById('formulario').style.display = 'block';
+  alert('Cliente agregado correctamente');
+  seleccionarCliente({ ...insertado, foto_url: urlCliente });
+  document.getElementById('formularioNuevo').reset();
+  document.getElementById('formularioNuevo').style.display = 'none';
+  document.getElementById('formulario').style.display = 'block';
 
-  } else {
-    console.error(error);
-    alert('Error al guardar el cliente');
+} else {
+  console.error(error);
+  alert('Error al guardar el cliente');
+}
+}
+    async function subirFotoABucket(base64, ruta) {
+  const blob = await (await fetch(base64)).blob();
+
+  const { error } = await supabaseClient.storage
+    .from('fotos-facturas')
+    .upload(ruta, blob, {
+      cacheControl: '3600',
+      upsert: true,
+      contentType: 'image/jpeg'
+    });
+
+  if (error) {
+    console.error(`❌ Error al subir ${ruta}:`, error);
+    return null;
   }
+
+  const { data } = supabaseClient.storage
+    .from('fotos-facturas')
+    .getPublicUrl(ruta);
+
+  return data.publicUrl;
 }
     function tomarFoto(idImagen) {
     const input = document.getElementById('inputFoto');
@@ -522,3 +561,4 @@ document.getElementById('formulario').style.display = 'block';
   </script>
 </body>
 </html>
+
