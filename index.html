@@ -300,12 +300,13 @@ const regimenfiscal = document.getElementById('regimenfiscal');
     return;
   }
 
-      const { data, error } = await supabaseClient
-        .from('clientes')
-        .select('id, nombrefiscal, rfc, regimenfiscal, direccion, numero, colonia, cp, municipio, ciudad, estado, pais, telefono, whatsapp, email, cfdi, metodopago, formapago, entrega, autorizado1, autorizado2, autorizado3, comentarios, mayoreo')
-        .ilike('nombrefiscal', `%${texto}%`)
-        .order('nombrefiscal', { ascending: true }) // 👈 agrega esto
-        .limit(5);
+     const { data, error } = await supabaseClient
+  .from('clientes')
+  .select('id, nombrefiscal, rfc, regimenfiscal, direccion, numero, colonia, cp, municipio, ciudad, estado, pais, telefono, whatsapp, email, cfdi, metodopago, formapago, entrega, autorizado1, autorizado2, autorizado3, comentarios, mayoreo, foto_url, autorizado1_url, autorizado2_url, autorizado3_url')
+  .ilike('nombrefiscal', `%${texto}%`)
+  .order('nombrefiscal', { ascending: true })
+  .limit(5);
+
 
       sugerencias.innerHTML = '';
   if (data) {
@@ -621,6 +622,7 @@ document.getElementById("formularioNuevo").addEventListener("submit", async (e) 
   </script>
 </body>
 </html>
+
 
 
 
