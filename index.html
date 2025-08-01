@@ -182,9 +182,6 @@
   <div class="campo"><label><input type="checkbox" id="nuevo_mayoreo"> Cliente de Mayoreo</label></div>
 
   <div class="campo">
-    <button type="submit">💾 Guardar Nuevo Cliente</button>
-  </div>
-</form>
  <!-- Recuadros de fotos y botones para tomar imagen -->
 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 30px;">
   <!-- Cliente -->
@@ -218,6 +215,10 @@
 
 <!-- Input oculto para activar cámara -->
 <input type="file" accept="image/*" capture="environment" id="inputFoto" style="display:none" />
+
+    <button type="submit">💾 Guardar Nuevo Cliente</button>
+  </div>
+</form>
 
   <script>
     const { createClient } = supabase;
@@ -561,4 +562,5 @@ if (!error && insertado) {
   </script>
 </body>
 </html>
+
 
