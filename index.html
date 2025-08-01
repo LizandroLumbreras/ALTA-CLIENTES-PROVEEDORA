@@ -185,6 +185,37 @@
     <button type="submit">💾 Guardar Nuevo Cliente</button>
   </div>
 </form>
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+  <!-- Cliente principal -->
+  <div>
+    <div style="text-align:center;">Cliente</div>
+    <img id="fotoCliente" src="" alt="Foto Cliente" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
+    <button onclick="tomarFoto('fotoCliente')" style="margin-top: 8px;">📸 Tomar Foto</button>
+  </div>
+
+  <!-- Autorizado 1 -->
+  <div>
+    <div style="text-align:center;">Autorizado 1</div>
+    <img id="fotoAutorizado1" src="" alt="Foto Autorizado 1" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
+    <button onclick="tomarFoto('fotoAutorizado1')" style="margin-top: 8px;">📸 Tomar Foto</button>
+  </div>
+
+  <!-- Autorizado 2 -->
+  <div>
+    <div style="text-align:center;">Autorizado 2</div>
+    <img id="fotoAutorizado2" src="" alt="Foto Autorizado 2" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
+    <button onclick="tomarFoto('fotoAutorizado2')" style="margin-top: 8px;">📸 Tomar Foto</button>
+  </div>
+
+  <!-- Autorizado 3 -->
+  <div>
+    <div style="text-align:center;">Autorizado 3</div>
+    <img id="fotoAutorizado3" src="" alt="Foto Autorizado 3" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
+    <button onclick="tomarFoto('fotoAutorizado3')" style="margin-top: 8px;">📸 Tomar Foto</button>
+  </div>
+</div>
+<input type="file" accept="image/*" capture="environment" id="inputFoto" style="display:none" />
+
   <script>
     const { createClient } = supabase;
     const supabaseClient = createClient(
@@ -474,6 +505,20 @@ document.getElementById('formulario').style.display = 'block';
     alert('Error al guardar el cliente');
   }
 }
+    function tomarFoto(idImagen) {
+    const input = document.getElementById('inputFoto');
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          document.getElementById(idImagen).src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  }
   </script>
 </body>
 </html>
