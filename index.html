@@ -344,10 +344,12 @@ const regimenfiscal = document.getElementById('regimenfiscal');
       comentarios.value = cliente.comentarios || '';
        mayoreo.checked = !!cliente.mayoreo; // <<--- importante
      
-      document.getElementById("fotoCliente").src = cliente.foto_url || "";
+     document.getElementById("fotoCliente").src = cliente.foto_url || "";
+document.getElementById("imgCliente").src = cliente.foto_url || ""; // ✅ este era el que faltaba
 document.getElementById("fotoAutorizado1").src = cliente.autorizado1_url || "";
 document.getElementById("fotoAutorizado2").src = cliente.autorizado2_url || "";
 document.getElementById("fotoAutorizado3").src = cliente.autorizado3_url || "";
+
 
 
   // Mostrar/ocultar
@@ -414,10 +416,13 @@ guardarBtn.onclick = async () => {
   const nuevoMayoreo = mayoreo.checked;
 
   // Obtener imágenes actuales
-  const fotoCliente = document.getElementById("fotoCliente").src;
-  const foto1 = document.getElementById("fotoAutorizado1").src;
-  const foto2 = document.getElementById("fotoAutorizado2").src;
-  const foto3 = document.getElementById("fotoAutorizado3").src;
+// Obtener imágenes actuales
+const fotoCliente = document.getElementById("imgCliente").src;
+const foto1 = document.getElementById("fotoAutorizado1").src;
+const foto2 = document.getElementById("fotoAutorizado2").src;
+const foto3 = document.getElementById("fotoAutorizado3").src;
+
+
 
   // Subir solo si son nuevas fotos base64
   const urlCliente = fotoCliente.startsWith('data:') ? await subirFotoABucket(fotoCliente, `clientes/${id}/cliente.jpg`) : clienteSeleccionado.foto_url;
@@ -616,6 +621,7 @@ document.getElementById("formularioNuevo").addEventListener("submit", async (e) 
   </script>
 </body>
 </html>
+
 
 
 
