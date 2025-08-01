@@ -154,11 +154,12 @@
        <!-- Recuadros de fotos y botones para tomar imagen -->
 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 30px;">
   <!-- Cliente -->
-  <div style="text-align: center;">
-    <div>Cliente</div>
-    <img id="fotoCliente" src="" alt="Foto Cliente" style="width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: #fff3;" />
-    <button type="button" onclick="tomarFoto('fotoCliente')" style="margin-top: 8px;">📸 Tomar Foto</button>
-  </div>
+  <div style="text-align:center">
+  <label>Cliente</label><br />
+  <img id="imgCliente" src="" alt="Foto Cliente" style="width:120px; border-radius:10px;" /><br />
+  <button onclick="tomarFoto('imgCliente')">📸 Tomar Foto</button>
+</div>
+
 
   <!-- Autorizado 1 -->
   <div style="text-align: center;">
@@ -578,20 +579,21 @@ if (!error && insertado) {
 
   return data.publicUrl;
 }
-    function tomarFoto(idImagen) {
-    const input = document.getElementById('inputFoto');
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          document.getElementById(idImagen).src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-    input.click();
-  }
+   function tomarFoto(idImagen) {
+  const input = document.getElementById('inputFoto');
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        document.getElementById(idImagen).src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+    input.value = ''; // para permitir recarga
+  };
+  input.click();
+}
     document.getElementById("nuevoClienteBtn").addEventListener("click", () => {
   // Oculta formulario de edición
   document.getElementById("formulario").style.display = "none";
@@ -614,6 +616,7 @@ document.getElementById("formularioNuevo").addEventListener("submit", async (e) 
   </script>
 </body>
 </html>
+
 
 
 
