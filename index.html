@@ -592,9 +592,29 @@ if (!error && insertado) {
     };
     input.click();
   }
+    document.getElementById("nuevoClienteBtn").addEventListener("click", () => {
+  // Oculta formulario de edición
+  document.getElementById("formulario").style.display = "none";
+
+  // Limpia imágenes
+  document.getElementById("fotoCliente").src = "";
+  document.getElementById("fotoAutorizado1").src = "";
+  document.getElementById("fotoAutorizado2").src = "";
+  document.getElementById("fotoAutorizado3").src = "";
+
+  // Muestra formulario nuevo
+  document.getElementById("formularioNuevo").reset();
+  document.getElementById("formularioNuevo").style.display = "block";
+});
+    // Activar submit de formulario nuevo
+document.getElementById("formularioNuevo").addEventListener("submit", async (e) => {
+  e.preventDefault(); // Evita recargar la página
+  await guardarNuevoCliente();
+});
   </script>
 </body>
 </html>
+
 
 
 
